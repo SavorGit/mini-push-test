@@ -1,0 +1,307 @@
+/* pages/template/commons.wxss */
+
+/* ================================= 微信授权登录 ================================= */
+
+.wxAuthLogin-container {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border-radius: 20rpx;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-top {
+  padding: 50rpx 0rpx 10rpx 0rpx;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-top > .opt {
+  margin-top: -20rpx;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-top > .opt > .close,
+.wxAuthLogin-container > .wxAuthLogin-top > .opt > .close::before,
+.wxAuthLogin-container > .wxAuthLogin-top > .opt > .close::after {
+  position: fixed;
+  right: 60rpx;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 30rpx;
+  height: 30rpx;
+  background-color: unset;
+  line-height: 0;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-top > .opt > .close > image {
+  margin-right: 10rpx;
+  width: 100%;
+  height: 100%;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-top > .title > label {
+  font-weight: bold;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-middle {
+  padding: 20rpx 40rpx 20rpx 40rpx;
+  margin-bottom: 20rpx;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-middle > .content {
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-middle > .link_relief {
+  height: 60rpx;
+  line-height: 60rpx;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-middle > .link_relief > navigator {
+  font-size: 30rpx;
+  color: #999;
+  text-decoration: underline;
+}
+
+.wxAuthLogin-container > .wxAuthLogin-bottom > button {
+  width: 50%;
+  border-radius: 40rpx;
+}
+
+/* ================================= 固定悬浮按钮组 ================================= */
+
+.fixedSuspensionButtonGroup {
+  position: fixed;
+  right: 80rpx;
+  bottom: 150rpx;
+  width: 50rpx;
+  height: 100rpx;
+  z-index: 99;
+}
+
+.fixedSuspensionButtonGroup > .scan_tdc > button {
+  margin: 0;
+  padding: 0;
+  border: 1rpx solid #1cbeb6;
+  box-shadow: 0 0 15px #1cbeb6;
+  width: 70rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 49%;
+  color: #1cbeb6;
+  font-size: 20rpx;
+}
+
+.fixedSuspensionButtonGroup > .scan_tdc > button > image {
+  width: 96rpx;
+  height: 96rpx;
+  border: 2rpx solid #1cbeb6;
+  box-shadow: 0 0 10px #1cbeb6;
+  border-radius: 49%;
+}
+
+/* ================================= 遥控器窗口 ================================= */
+
+.remoteControlWindow-container {
+  background-color: #1cbeb6;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border-radius: 20rpx;
+}
+
+.remoteControlWindow-container .button-hover {
+  /* background-color: rgba(0, 0, 0, 0.1); */
+  opacity: 0.7;
+}
+
+.remoteControlWindow-container .remoteControlWindow-control {
+  padding: 20rpx;
+  text-align: right;
+}
+
+.remoteControlWindow-container .remoteControlWindow-control image {
+  width: 30rpx;
+  height: 30rpx;
+  /* padding: 10rpx 25rpx;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10rpx; */
+}
+
+.remoteControlWindow-container .remoteControlWindow-top {
+  padding: 10rpx 50rpx;
+}
+
+.remoteControlWindow-container .remoteControlWindow-top .opt {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.remoteControlWindow-container .remoteControlWindow-top .opt button {
+  width: 100rpx;
+  height: 100rpx;
+  border: unset;
+  padding: unset;
+  background: unset;
+  border-radius: 60rpx;
+}
+
+.remoteControlWindow-container .remoteControlWindow-top .opt button image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.remoteControlWindow-container .remoteControlWindow-middle {
+  height: 580rpx;
+  padding-top: 90rpx;
+  z-index: 1;
+}
+
+.remoteControlWindow-container .remoteControlWindow-middle button {
+  width: 400rpx;
+  height: 400rpx;
+  border: unset;
+  padding: unset;
+  background: unset;
+  border-radius: 200rpx;
+  z-index: 1;
+}
+
+.remoteControlWindow-container .remoteControlWindow-middle button image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.remoteControlWindow-container .remoteControlWindow-middle .btn-tip {
+  margin-top: -10rpx;
+  height: 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #fff;
+  z-index: 10;
+}
+
+.remoteControlWindow-container .remoteControlWindow-middle .btn-tip image {
+  width: 50rpx;
+  height: 50rpx;
+  z-index: 10;
+}
+
+.remoteControlWindow-container .remoteControlWindow-bottom {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+
+.remoteControlWindow-container .remoteControlWindow-bottom view {
+  width: 50%;
+  height: 80rpx;
+}
+
+.remoteControlWindow-container .remoteControlWindow-bottom button {
+  width: 260rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  border-radius: 15rpx;
+}
+
+.remoteControlWindow-container .remoteControlWindow-bottom navigator {
+  width: 280rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin: auto;
+  font-size: 28rpx;
+  border-radius: 15rpx;
+  /* position: relative;
+  padding-left: 14px;
+  padding-right: 14px;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden; */
+}
+
+.remoteControlWindow-container .remoteControlWindow-bottom navigator.navigator-hover {
+  background-color: #05101a;
+  opacity: 0.7;
+}
+
+/* ================================= 自定义顶级页面导航栏 ================================= */
+
+.default-navigation-bar {
+  /* background-color: #932c3f; */
+  width: 100vw;
+}
+
+.default-navigation-bar > .status-bar {
+  font-size: 24px;
+}
+
+.default-navigation-bar > .navigation-bar {
+  height: 46px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.default-navigation-bar > .navigation-bar > .btn {
+  width: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.default-navigation-bar > .navigation-bar > .title {
+  width: calc(100% - 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.default-navigation-bar > .navigation-bar > .title > .text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* ================================= 自定义二级页面导航栏 ================================= */
+
+.default-navigation-bar > .navigation-bar > .btn {
+  padding-left: 20rpx;
+}
+
+.default-navigation-bar > .navigation-bar > .btn > .go-back,
+.default-navigation-bar > .navigation-bar > .btn > .to-home {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.default-navigation-bar > .navigation-bar > .btn > .go-back > image,
+.default-navigation-bar > .navigation-bar > .btn > .to-home > image {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+@-webkit-keyframes rotate2 {
+  from {
+    -webkit-transform: rotateX(0deg);
+  }
+
+  to {
+    -webkit-transform: rotateX(720deg);
+  }
+}

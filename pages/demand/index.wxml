@@ -1,0 +1,97 @@
+<!-- <import src="../template/navigation.wxml" /> -->
+<import src="/pages/template/commons" />
+<template is="navigationBarForTopLevel" data='{{statusBarHeight: statusBarHeight,titleText:"热点投屏"}}' />
+
+<view class="container" style='height: calc(100vh - 46px - {{statusBarHeight}}px);'>
+  <!-- ================================== 输入验证码 ================================== -->
+  <form class="full_width display_{{showCode?'show':'hide'}}">
+    <view class='input_num'>
+      <image class='input_pic_banner' src='/images/pic_check_code_banner.jpg'></image>
+      <view class='content'>
+        <block wx:for="{{Length}}" wx:key="item">
+          <input class="input iptbox" type="number" value="{{Value.length>=index+1?Value[index]:''}}" disabled password='{{ispassword}}' catchtap='Tap'></input>
+        </block>
+      </view>
+      <label class='input_tip font_333333_34'>请输入电视中的三位数连接电视</label>
+      <input type="number" name="password" data-boxmac="{{box_mac}}" data-openid="{{openid}}" value="{{pwds}}" password="{{true}}" class='ipt' maxlength="{{Length}}" focus="{{isFocus}}" bindinput="Focus"></input>
+      <input name="openid" class="display_hide" value="{{openid}}"></input>
+      <input name="box_mac" class="display_hide" value="{{box_mac}}"></input>
+    </view>
+  </form>
+  <!-- ================================== 列表页 ================================== -->
+
+  <scroll-view class="scroll_container display_{{showView?'show':'hide'}}" bindscrolltolower="loadMore" data-boxmac="{{box_mac}}" scroll-y="true" scroll-with-animation="true">
+
+    <!-- 轮播图开始 -->
+    <swiper wx:if="{{imgUrls.length > 0}}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{imgUrls}}" wx:key="item">
+        <navigator bindtap='jumpMimiPro' data-boxmac="{{box_mac}}" data-openid="{{openid}}" target="{{item.target}}" open-type="navigate" app-id="{{item.appId}}" path="{{item.path}}" extra-data="{{item.extraData}}" version="release" url="{{item.url}}">
+          <swiper-item>
+            <image mode='aspectFill' src="{{item.image}}" class="slide-image" />
+          </swiper-item>
+        </navigator>
+      </block>
+    </swiper>
+    <!-- 轮播图结束 -->
+
+    <view class='article_list'>
+      <!-- 循环开始 -->
+      <view class='article' wx:for="{{program_list}}" wx:key="key" wx:for-item="bean" wx:for-index="index">
+        <view class='cover'>
+          <navigator url="/pages/forscreen/video/launch_video?video_url={{bean.tx_url}}&video_name={{bean.title}}&box_mac={{box_mac}}&res_id={{bean.id}}&filename={{bean.filename}}&video_img_url={{bean.img_url}}">
+            <image class='theme2' mode='aspectFill' src='{{bean.img_url}}'></image>
+          </navigator>
+          <navigator bindtap='demandLog' data-openid='{{openid}}' data-box_mac='{{box_mac}}' data-title='{{bean.title}}' data-tx_url='{{bean.tx_url}}' data-id='{{bean.id}}' data-duration="{{bean.duration}}" class='full' url="/pages/forscreen/video/launch_video?video_url={{bean.tx_url}}&video_name={{bean.title}}&box_mac={{box_mac}}&res_id={{bean.id}}&filename={{bean.filename}}&video_img_url={{bean.img_url}}">
+            <label class='font_F6F6F6_28'>{{bean.title}}</label>
+            <view class='play'>
+              <image src='/images/icon2/FFFFFF_play.png'></image>
+            </view>
+          </navigator>
+        </view>
+        <view class='con_bottom theme2'>
+          <view class='launch'>
+            <view>
+              <button bindtap='boxShow' data-name="{{bean.title}}" data-filename='{{bean.filename}}' data-vediourl="{{bean.tx_url}}" data-boxmac="{{box_mac}}" data-openid="{{openid}}" class='theme-button'>电视播放</button>
+            </view>
+          </view>
+          <view class='operation font_666666_26'>
+            <view>
+              <image src='/images/icon2/666666_play1.png'></image>
+              <label>{{bean.play_num}}</label>
+            </view>
+            <view wx:if="{{bean.is_collect==1}}">
+              <image src='/images/icon2/FF0000_heart.png' bindtap='cancCollect' data-res_id="{{bean.id}}" data-type='{{bean.type}}' data-res_key="{{index}}"></image>
+              <label>{{bean.collect_num}}</label>
+            </view>
+            <view wx:else>
+              <image src='/images/icon2/666666_heart.png' bindtap='onCollect' data-res_id="{{bean.id}}" data-type='{{bean.type}}' data-res_key="{{index}}"></image>
+              <label>{{bean.collect_num}}</label>
+            </view>
+            <view>
+              <button open-type='share' data-openid="{{openid}}" data-res_id="{{bean.id}}" data-type='{{bean.type}}' data-res_key="{{index}}" data-video_url="{{bean.tx_url}}" data-video_name="{{bean.title}}" data-video_img='{{bean.img_url}}'>
+                <image src='/images/icon2/666666_share.png'></image>
+                <label>{{bean.share_num}}</label>
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 循环结束 -->
+
+      <view class="body-view">
+        <loading hidden="{{hiddens}}" bindchange="loadingChange">加载中...</loading>
+      </view>
+    </view>
+
+    <!-- 滚动页面底部留白 -->
+    <view class='nav_bottom_space'></view>
+  </scroll-view>
+</view>
+
+<!-- 遥控器 -->
+<template is="remoteControlWindow" data='{{popRemoteControlWindow: showControl, qrcode_img:qrcode_img, box_mac:box_mac, openid:openid, is_open_simple:is_open_simple}}' />
+
+<!-- 固定悬浮按钮组 -->
+<view wx:if="{{box_mac !=''}}">
+  <template is="fixedSuspensionButtonGroup" />
+</view>

@@ -1,0 +1,190 @@
+/* pages/mine/index_20181010.wxss */
+
+.page_main {
+  width: 100%;
+  /* height: calc(100% - 138rpx); */
+  height: 100%;
+}
+
+.page_top {
+  height: 190rpx;
+  line-height: 190rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.user {
+  width: 50%;
+  height: 100%;
+}
+
+.user > view {
+  position: relative;
+  float: left;
+}
+
+.user > .head > image {
+  margin-left: 35rpx;
+  margin-right: 35rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #bebebe;
+  vertical-align: middle;
+}
+
+.user > .head > image::before {
+  margin-left: 35rpx;
+  margin-right: 35rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #bebebe;
+  vertical-align: middle;
+}
+
+.user > .info {
+  margin-top: -25rpx;
+}
+
+.user > .info  > label {
+  height: 36rpx;
+  padding: 10rpx 0rpx 10rpx 0rpx;
+  display: block;
+}
+
+.right {
+  width: 50%;
+  height: 100%;
+  line-height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.right .flush, .right .flush::before, .right .flush::after {
+  margin: unset;
+  padding: unset;
+  border: unset;
+  width: 60rpx;
+  height: 90rpx;
+  margin-top: 3rpx;
+  margin-right: 20rpx;
+  background-color: unset;
+  line-height: unset;
+}
+
+.right .flush > view {
+  margin: unset;
+  padding: unset;
+  border: unset;
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.right .flush image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/* =============== 选项卡开始 =============== */
+
+.swiper-tab {
+  width: 100%;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-weight: bold;
+}
+
+.swiper-tab-item {
+  width: 150rpx;
+  height: 65rpx;
+  margin: 0rpx 40rpx 0rpx 40rpx;
+  display: inline-block;
+  text-align: center;
+}
+
+.active {
+  color: #666;
+  border-bottom: 5rpx solid #1cbeb6;
+}
+
+.content {
+  padding: 20rpx 30rpx 20rpx 30rpx;
+}
+
+/* .content_bottom_border {
+  border-bottom: 1rpx solid #d9d3cd;
+} */
+
+.con_main {
+  margin: 0rpx;
+  padding: 0rpx;
+  border: 0rpx;
+  width: 100%;
+  min-height: 235rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.con_main .weui-grid .yingtao {
+  width: calc((100vw - 60rpx) / 3);
+  height: calc((100vw - 60rpx) / 3);
+}
+
+.con_main .weui-grid:hover {
+  background: #000;
+  border: #000;
+}
+
+.con_main .weui-grid .yingtao navigator {
+  margin: 0rpx 0rpx 0rpx 6rpx;
+  width: calc(100% - 10rpx);
+  height: calc(100% - 10rpx);
+}
+
+.con_main .weui-grid .yingtao navigator image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+
+.con_main .weui-grid .yingtao .cover {
+  margin: calc(100% * -1) 0rpx 0rpx 6rpx;
+  width: calc(100% - 10rpx);
+  height: calc(100% - 10rpx);
+  border-radius: 10rpx;
+  vertical-align: bottom;
+}
+
+.con_main .weui-grid .yingtao .cover .share {
+  margin-top: calc(100% - 55rpx);
+  margin-left: 5rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+
+.con_main .weui-grid .yingtao .cover .share > image {
+  width: 32rpx;
+  height: 32rpx;
+  vertical-align: middle;
+}
+
+.con_main .weui-grid .yingtao .cover .share > label {
+  margin-left: 10rpx;
+  vertical-align: middle;
+}
+
+.row-center {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* =============== 选项卡结束 =============== */

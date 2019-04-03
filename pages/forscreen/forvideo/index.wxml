@@ -1,0 +1,216 @@
+<!-- pages/forscreen/forvideo/index.wxml -->
+<import src="/pages/template/commons" />
+<template is="navigationBarForTwoLevel" data='{{statusBarHeight: statusBarHeight,titleText:"热点投屏"}}' />
+
+<view class="container" style='height: calc(100vh - 46px - {{statusBarHeight}}px);'>
+
+
+  <!-- ================================== 上传视频前 ================================== -->
+  <view class="full_width launch_video_page_b display_{{showVedio?'show':'hide'}}">
+    <view class='page_top theme2 flex_row_center font_666666_26'>
+      <label>视频加载完成后，电视开始加载并自动播放</label>
+      <label class='link_relief'>
+        <navigator url="/pages/forscreen/relief">免责声明</navigator>
+      </label>
+    </view>
+    <form bindsubmit="forscreen_video">
+      <view class='page_main'>
+        <view class='cover full_width'>
+          <video src='{{upload_vedio_temp}}'></video>
+        </view>
+
+        <!-- 投视频 -->
+        <view class="grant_auth">
+          <checkbox-group class="checkbox-group" bindchange="checkboxChange">
+            <label class="items" wx:for="{{item}}" wx:key="key" wx:for-index="index">
+              <view wx:if="{{index==0}}">
+                <checkbox class="display_hide" value="{{item.value}}" checked="{{item.checked}}" disabled="{{item.disabled}}">{{item.name}}</checkbox>
+              </view>
+              <view wx:else>
+                <checkbox value="{{item.value}}" checked="{{item.checked}}" disabled="{{item.disabled}}">{{item.name}}</checkbox>
+              </view>
+            </label>
+          </checkbox-group>
+        </view>
+        <view wx:if="{{is_share>0}}" class='speak_with_interest'>
+          <textarea class='text_input' name="public_text" maxlength='200' placeholder='顺便对公众说两句...'></textarea>
+        </view>
+      </view>
+      <input class='display_hide' name="box_mac" value="{{box_mac}}"></input>
+      <input class='display_hide' name="openid" value="{{openid}}"></input>
+      <input class='display_hide' name="video" value="{{upload_vedio_temp}}"></input>
+      <input class='display_hide' name="is_pub_hotelinfo" value="{{is_pub_hotelinfo}}"></input>
+      <input class='display_hide' name="duration" value="{{duration}}"></input>
+      <input class='display_hide' name="is_share" value="{{is_share}}"></input>
+      <input class='display_hide' name="avatarUrl" value="{{avatarUrl}}"></input>
+      <input class='display_hide' name="nickName" value="{{nickName}}"></input>
+      <input class='display_hide' name="is_open_simple" value="{{is_open_simple}}"></input>
+
+      <view class='page_bottom'>
+        <button class="savor-btn savor-btn-size" form-type="submit" hover-class="none" disabled='{{is_btn_disabel}}'>投屏</button>
+      </view>
+    </form>
+
+    <!-- 打断投屏弹窗 -->
+    <bottomModal show="{{showModal}}" height='auto' width="98%" title-text="" confirm-text="" cancel-text="">
+      <view class='bottom-pop-window-container'>
+        <view class='bottom-pop-window-top'>
+          <view class='title'>
+            <label class='font_333333_34'>确认打断投屏？</label>
+          </view>
+        </view>
+        <view class='bottom-pop-window-main'>
+          <label class='content font_666666_30'>当前电视正在进行投屏，继续投屏有可能打断当前投屏中的内容。</label>
+        </view>
+
+        <view class='bottom-pop-window-bottom'>
+          <button class='savor-btn' bindtap="">继续投屏</button>
+          <button class='savor-btn theme-menu' bindtap="">取消投屏</button>
+        </view>
+      </view>
+    </bottomModal>
+  </view>
+
+
+  <!-- ================================== 视频上传中 ================================== -->
+  <!-- <view class="full_width launch_video_page_b display_{{showVedio?'show':'hide'}}">
+    <view class='page_top theme2 flex_row_center font_666666_26'>
+      <label>视频加载完成后，电视开始加载并自动播放</label>
+      <label class='link_relief'>
+        <navigator url="/pages/forscreen/relief">免责声明</navigator>
+      </label>
+    </view>
+    <view class='page_main'>
+      <view class='cover full_width'>
+        <video src='{{upload_vedio_temp}}'></video>
+        <view>
+          <label class='font_1CBEB6_34'>{{vedio_percent}}%</label>
+          <progress percent='{{vedio_percent}}' activeColor='#1CBEB6' backgroundColor="#0e1c29" />
+        </view>
+      </view>
+    </view>
+    <view class='page_bottom'>
+      <button bindtap='forscreen_video' class="savor-btn savor-btn-size uploading" form-type="submit" hover-class="none" data-box_mac='{{box_mac}}' data-openid='{{openid}}' data-video="{{upload_vedio_temp}}" data-is_pub_hotelinfo='{{is_pub_hotelinfo}}' data-duration="{{duration}}"
+        data-is_share='{{is_share}}' data-avatarUrl='{{avatarUrl}}' data-nickName='{{nickName}}' disabled='{{is_btn_disabel}}'>正在上传...</button>
+    </view>
+  </view> -->
+
+
+  <!-- ================================== 视频上传失败 ================================== -->
+  <!-- <view class="full_width launch_video_page_b display_{{showVedio?'show':'hide'}}">
+    <view class='page_top theme2 flex_row_center font_666666_26'>
+      <label>视频加载完成后，电视开始加载并自动播放</label>
+      <label class='link_relief'>
+        <navigator url="/pages/forscreen/relief">免责声明</navigator>
+      </label>
+    </view>
+    <view class='page_main'>
+      <view class='cover full_width'>
+        <video src='{{upload_vedio_temp}}'></video>
+        <view>
+          <label class='font_666666_34'>{{vedio_percent}}%</label>
+          <progress percent='{{vedio_percent}}' activeColor='#666666' backgroundColor="#0e1c29" />
+        </view>
+      </view>
+    </view>
+    <view class='page_bottom'>
+      <button bindtap='forscreen_video' class="savor-btn savor-btn-size" form-type="submit" hover-class="none" data-box_mac='{{box_mac}}' data-openid='{{openid}}' data-video="{{upload_vedio_temp}}" data-is_pub_hotelinfo='{{is_pub_hotelinfo}}' data-duration="{{duration}}"
+        data-is_share='{{is_share}}' data-avatarUrl='{{avatarUrl}}' data-nickName='{{nickName}}' disabled='{{is_btn_disabel}}'>重试</button>
+    </view>
+  </view> -->
+
+
+  <!-- ================================== 上传视频后 ================================== -->
+  <view class="full_width full_height launch_video_page_a display_{{showVedio?'hide':'show'}}">
+    <view class='page_top theme2 flex_row_center font_666666_26'>
+      <label>视频加载完成后，电视开始加载并自动播放</label>
+      <label class='link_relief'>
+        <navigator url="/pages/forscreen/relief">免责声明</navigator>
+      </label>
+    </view>
+    <view class='page_main'>
+      <view class='cover'>
+        <image mode='aspectFit' src='{{upload_vedio_cover}}'></image>
+      </view>
+
+
+
+    </view>
+
+    <!-- 重选 -->
+    <view class="page_bottom theme2">
+      <view class='button_group flex_row_center'>
+        <button class='savor-btn button_space_left' bindtap='chooseVedio' data-boxmac="{{box_mac}}" data-openid="{{openid}}">重选视频</button>
+        <button class='savor-btn button_space_right' bindtap="exitForscreend" data-boxmac="{{box_mac}}" data-openid="{{openid}}">退出投屏</button>
+      </view>
+    </view>
+
+    <view class='launch_history'>
+      <view class='title'>
+        <!-- <image src='/images/icon2/333333_history.png'></image> -->
+        <label class='font_666666_26'>投屏历史</label>
+      </view>
+
+      <scroll-view scroll-y="true" scroll-with-animation="true" bindscrolltolower="loadMore" data-openid='{{openid}}' data-box_mac='{{box_mac}}'>
+        <!-- 有数据时 -->
+        <view class='history_list' wx:if="{{forscreen_history_list !=''}}">
+          <view wx:for="{{forscreen_history_list}}" wx:key="key" wx:for-item="bean" wx:for-index="index">
+            <view wx:if="{{bean.res_type==1}}" class="pic">
+              <view class="weui-grids">
+                <view class="weui-grid" wx:for="{{bean.list}}" wx:key="pkey" wx:for-item="item" wx:for-index="indexs">
+                  <image bindtap="previewImage" data-pkey="{{indexs}}" data-src="{{bean.list}}" mode='aspectFill' src="{{item.imgurl}}"></image>
+                </view>
+              </view>
+              <view class='btn'>
+                <button bindtap="replayHistory" data-res_type='{{bean.res_type}}' data-box_mac='{{box_mac}}' data-openid='{{openid}}' data-res_list='{{bean.list}}'>重投</button>
+              </view>
+            </view>
+            <view wx:else class="video">
+              <view class="cover" wx:for="{{bean.list}}" wx:key="pkey" wx:for-item="item" wx:for-index="indexs">
+                <navigator url="/pages/forscreen/video/launch_video?video_url={{item.res_url}}&video_name=">
+                  <image mode='aspectFill' src="{{item.imgurl}}"></image>
+                </navigator>
+                <view>
+                  <navigator url="/pages/forscreen/video/launch_video?video_url={{item.res_url}}&video_name=">
+                    <image src="/images/icon/white_play.png"></image>
+                  </navigator>
+                </view>
+              </view>
+              <view class='btn'>
+                <button bindtap="replayHistory" data-res_type='{{bean.res_type}}' data-box_mac='{{box_mac}}' data-openid='{{openid}}' data-res_list='{{bean.list}}'>重投</button>
+              </view>
+            </view>
+            <view wx:if="{{forscreen_history_list.length > index+1}}" class='line'></view>
+          </view>
+        </view>
+
+        <view class='no_data' wx:else>
+          <view class="row-center">
+            <view>
+              <image style='width: 44rpx;height: 64rpx;' src='http://oss.littlehotspot.com/WeChat/MiniProgram/LaunchScreen/source/images/imgs/default_mine.png'></image>
+            </view>
+            <view>
+              <label class='font_666666_24'>暂无投屏记录</label>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+
+  </view>
+
+</view>
+<view class="body-view">
+  <loading hidden="{{hiddens}}" bindchange="loadingChange">{{load_fresh_char}}</loading>
+</view>
+<!-- 跳转极简版 -->
+<template is="jumpSimple" data="{{show:is_show_jump,box_mac:box_mac}}" />
+
+<!-- 遥控器 -->
+<template is="remoteControlWindow" data='{{popRemoteControlWindow: popRemoteControlWindow,qrcode_img:qrcode_img,box_mac:box_mac,openid:openid,is_open_simple:is_open_simple}}' />
+
+<!-- 固定悬浮按钮组 -->
+<view wx:if="{{box_mac !='' && is_view_control==true}}">
+  <template is="fixedSuspensionButtonGroup" />
+</view>

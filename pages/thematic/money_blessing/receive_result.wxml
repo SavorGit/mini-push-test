@@ -1,0 +1,54 @@
+<!--pages//thematic/money_blessing/receive_result.wxml-->
+<import src="/pages/template/commons" />
+<template is="navigationBarForShare" data='{{statusBarHeight: statusBarHeight,titleText:"热点投屏"}}' />
+
+
+<!-- 支付失败 -->
+<view wx:if="{{order_status==2}}" class='container' style='height: calc(100vh - 46px - {{statusBarHeight}}px);'>
+  <view class='PageTop full_width'></view>
+  <view class='PageMain full_width'>
+    <view class='package'>
+      <view class='head'>
+        <image class='BorderColor' src='{{avatarUrl}}'></image>
+      </view>
+      <view class='body PackageColor'>
+        <view class='user_name'>{{nickName}}</view>
+        <view class='blessing'>{{bless}}</view>
+        <view class='message'>手慢了，红包抢完了</view>
+        <view class='grab'>
+          <navigator class='button' url='/pages/thematic/money_blessing/packing?openid={{openid}}&box_mac={{box_mac}}'>我也发一个></navigator>
+          <navigator class='button' url='/pages/thematic/money_blessing/grab_detail?order_id={{order_id}}&box_mac={{box_mac}}'>查看领取详情></navigator>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='PageBottom full_width'>
+  </view>
+</view>
+
+
+<!-- 支付成功 -->
+<view wx:elif="{{order_status==1}}" class='container' style='height: calc(100vh - 46px - {{statusBarHeight}}px);'>
+  <view class='PageTop full_width'></view>
+  <view class='PageMain full_width'>
+    <view class='package'>
+      <view class='head'>
+        <image class='BorderColor' src='{{avatarUrl}}'></image>
+      </view>
+      <view class='body PackageColor'>
+        <view class='user_name'>{{nickName}}</view>
+        <view class='blessing'>{{bless}}</view>
+        <view class='money'>
+          <label>{{money}}</label>
+          <sub>元</sub>
+        </view>
+        <view class='grab'>
+          <navigator class='button' url='/pages/thematic/money_blessing/packing?openid={{openid}}&box_mac={{box_mac}}'>我也发一个></navigator>
+          <navigator class='button' url='/pages/thematic/money_blessing/grab_detail?order_id={{order_id}}&box_mac={{box_mac}}'>查看领取详情></navigator>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='PageBottom full_width'>
+  </view>
+</view>

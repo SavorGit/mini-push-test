@@ -1,0 +1,4 @@
+<!--pages/thematic/birthday/detail.wxml-->
+<!-- <import src="/pages/template/commons" />
+<template is="navigationBarForTwoLevel" data='{{statusBarHeight: statusBarHeight,titleText:"热点投屏"}}' /> -->
+<web-view src='{{detail_url}}'></web-view>

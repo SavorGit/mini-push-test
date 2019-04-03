@@ -1,0 +1,96 @@
+/* pages/interact/index.wxss */
+
+.navigator-hover {
+  background-color: unset;
+  opacity: 0.7;
+}
+
+.page_main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page_main > .climbtree {
+  height: 240rpx;
+  padding: unset;
+  display: flex;
+}
+
+.page_main > .tip {
+  height: 200rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  text-align: center;
+}
+
+/* .page_main > .tip > button, .page_main > .tip > button::before,
+.page_main > .tip > button::after {
+  width: 180rpx;
+  height: 50rpx;
+  margin-top: 50rpx;
+  padding: unset;
+  line-height: 2;
+  font-size: 24rpx;
+  border: 1rpx solid #f6f2ec;
+  background-color: #fff;
+}
+
+.page_main > .tip > button::before, .page_main > .tip > button::after {
+  border: 2rpx solid #f6f2ec;
+} */
+
+.page_main > .tip > button {
+  width: 180rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  margin-top: 50rpx;
+  font-size: 24rpx;
+  border-radius: 25rpx;
+}
+
+.page_main > .operation > view {
+  align-items: center;
+  padding: 25rpx 0rpx;
+}
+
+.page_main > .operation > view > image {
+  width: 48rpx;
+  height: 38rpx;
+  vertical-align: middle;
+}
+
+.page_main > .operation > view > label {
+  height: 60rpx;
+  line-height: 60rpx;
+  margin-left: 10rpx;
+  font-size: 34rpx;
+}
+
+.page_main > navigator {
+  width: 100%;
+  text-align: right;
+  margin-right: 50rpx;
+}
+
+.page_main > navigator > image {
+  width: 48rpx;
+  height: 48rpx;
+  vertical-align: middle;
+}
+
+.page_main > navigator > label {
+  height: 60rpx;
+  line-height: 60rpx;
+  margin-left: 10rpx;
+  font-size: 28rpx;
+}
+
+/* 扫描弹窗提示内容 */
+
+.scan_tip {
+  padding: 0rpx 40rpx;
+  font-size: 30rpx;
+  text-align: center;
+}

@@ -1,0 +1,59 @@
+<!--pages/interact/index.wxml-->
+<import src="/pages/template/commons" />
+<template is="navigationBarForTopLevel" data='{{statusBarHeight: statusBarHeight,titleText:"热点投屏"}}' />
+
+<view class="container" style='height: calc(100vh - 46px - {{statusBarHeight}}px);'>
+  <view class='page_main'>
+    <view wx:if="{{is_game_banner > 0}}" class='full_width climbtree' bindtap='hdgames' data-boxmac="{{box_mac}}" data-openid="{{openid}}">
+      <image class='full_width full_height' src="{{banner_img_url}}"></image>
+    </view>
+    <view wx:if="{{is_link > 0}}" class='full_width tip'>
+      <label class='font_F6F2EC_30'>您已成功链接“{{hotel_name}}”的{{room_name}}电视</label>
+      <button class='theme-button' bindtap="breakLink" data-boxmac="{{box_mac}}" data-openid="{{openid}}">断开链接</button>
+    </view>
+    <view wx:elif="{{is_link == 0}}" class='full_width tip'>
+      <label class='font_F6F2EC_30'> </label>
+    </view>
+    <view class='operation'>
+      <view bindtap="chooseImage" data-boxmac="{{box_mac}}" data-openid="{{openid}}" data-is_open_simple='{{is_open_simple}}'>
+        <image src='/images/icon2/FFFFFF_picture.png'></image>
+        <label>照片上电视</label>
+      </view>
+      <view bindtap='chooseVedio' data-boxmac="{{box_mac}}" data-openid="{{openid}}" data-is_open_simple='{{is_open_simple}}'>
+        <image src='/images/icon2/FFFFFF_video.png'></image>
+        <label>视频上电视</label>
+      </view>
+      <view bindtap='showHappy' data-boxmac="{{box_mac}}" data-openid="{{openid}}">
+        <image src='/images/icon2/FFFFFF_birthday.png'></image>
+        <label>生日歌点播</label>
+      </view>
+      <view bindtap='hdgames' data-boxmac="{{box_mac}}" data-openid="{{openid}}">
+        <image src='/images/icon2/FFFFFF_game.png'></image>
+        <label>互动小游戏</label>
+      </view>
+      <view bindtap='forscreenHistory' data-boxmac="{{box_mac}}" data-openid="{{openid}}">
+        <image src='/images/icon2/FFFFFF_history.png'></image>
+        <label>投屏历史</label>
+      </view>
+      
+      <!-- <view >
+        <image src='/images/icon2/FFFFFF_history.png'></image>
+        <navigator url="/pages/thematic/money_blessing/grab?scene=10115_00226D655202"><label>抢红包</label></navigator>
+      </view> -->
+    </view>
+  </view>
+  <template is="wxAuthLogin" data='{{show: showModal}}' />
+</view>
+
+<!-- 遥控器 -->
+<template is="remoteControlWindow" data='{{popRemoteControlWindow: popRemoteControlWindow,qrcode_img:qrcode_img,box_mac:box_mac,openid:openid,is_open_simple:is_open_simple}}' />
+
+<!-- 固定悬浮按钮组 -->
+<view wx:if="{{box_mac !=''}}">
+  <template is="fixedSuspensionButtonGroup" />
+</view>
+
+<!-- 扫描二维码提示弹窗 -->
+<modal show="{{showScanModal}}" width="90vw" height="360rpx" border-radius="20rpx" title-text="温馨提示" confirm-text="立即扫码">
+  <view class='scan_tip'>您需要扫描热点合作餐厅电视中的二维码链接电视，链接成功后可使用此功能。</view>
+</modal>
