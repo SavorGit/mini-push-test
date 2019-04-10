@@ -253,4 +253,4 @@ App({
     oss_url: 'https://dev-oss.littlehotspot.com',
     oss_upload_url:'https://dev-image.littlehotspot.com',
   }
-})
+}) 

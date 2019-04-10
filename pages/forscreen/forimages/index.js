@@ -298,7 +298,7 @@ Page({
             tmp_percent: tmp_percent
           })
         },
-        fial: function ({ errMsg }) {
+        fail: function ({ errMsg }) {
           console.log('uploadImage fial,errMsg is', errMsg)
         },
       });
