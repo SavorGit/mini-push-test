@@ -4,6 +4,7 @@ var openid;
 var box_mac;
 var order_id;
 var scene;
+var api_url = app.globalData.api_url;
 Page({
 
   /**
@@ -39,7 +40,7 @@ Page({
       var mobile_model = app.globalData.mobile_model;
       //记录扫码抢红包日志
       wx.request({
-        url: app.globalData.api_url +'/Smallapp21/index/recordForScreenPics',
+        url: api_url+'/Smallapp21/index/recordForScreenPics',
         header: {
           'content-type': 'application/json'
         },
@@ -58,7 +59,7 @@ Page({
       })
       //判断用户是否注册
       wx.request({
-        url: app.globalData.api_url +'/smallapp21/User/isRegister',
+        url: api_url+'/smallapp21/User/isRegister',
         data: {
           "openid": openid,
         },
@@ -81,7 +82,7 @@ Page({
             } else {
               //如果已授权   请求获取扫电视红包小程序码结果
               wx.request({
-                url: app.globalData.api_url +'/Smallapp3/redpacket/getScanresult',
+                url: api_url+'/Smallapp3/redpacket/getScanresult',
                 header: {
                   'content-type': 'application/json'
                 },
@@ -109,7 +110,7 @@ Page({
                       })
                     } else if (order_status == 3) {
                       wx.request({
-                        url: app.globalData.api_url +'//Smallapp3/redpacket/grabBonusResult',
+                        url: api_url+'//Smallapp3/redpacket/grabBonusResult',
                         header: {
                           'content-type': 'application/json'
                         },
@@ -192,7 +193,7 @@ Page({
           var mobile_model = app.globalData.mobile_model;
           //记录扫码抢红包日志
           wx.request({
-            url: app.globalData.api_url +'/Smallapp21/index/recordForScreenPics',
+            url: api_url+'/Smallapp21/index/recordForScreenPics',
             header: {
               'content-type': 'application/json'
             },
@@ -211,7 +212,7 @@ Page({
           })
           //判断用户是否注册
           wx.request({
-            url: app.globalData.api_url +'/smallapp21/User/isRegister',
+            url: api_url+'/smallapp21/User/isRegister',
             data: {
               "openid": openid,
             },
@@ -234,7 +235,7 @@ Page({
                 } else {
                   //如果已授权   请求获取扫电视红包小程序码结果
                   wx.request({
-                    url: app.globalData.api_url +'/Smallapp3/redpacket/getScanresult',
+                    url: api_url+'/Smallapp3/redpacket/getScanresult',
                     header: {
                       'content-type': 'application/json'
                     },
@@ -262,7 +263,7 @@ Page({
                           })
                         } else if (order_status == 3) {
                           wx.request({
-                            url: app.globalData.api_url +'//Smallapp3/redpacket/grabBonusResult',
+                            url: api_url+'//Smallapp3/redpacket/grabBonusResult',
                             header: {
                               'content-type': 'application/json'
                             },
@@ -346,7 +347,7 @@ Page({
     openid = user_info.openid;
     if (res.detail.errMsg == 'getUserInfo:ok') {
       wx.request({
-        url: app.globalData.api_url +'/smallapp21/User/register',
+        url: api_url+'/smallapp21/User/register',
         data: {
           'openid': openid,
           'avatarUrl': res.detail.userInfo.avatarUrl,
@@ -384,7 +385,7 @@ Page({
       box_mac = '';
     }
     wx.request({
-      url: app.globalData.api_url +'/Smallapp21/index/closeauthLog',
+      url: api_url+'/Smallapp21/index/closeauthLog',
       header: {
         'content-type': 'application/json'
       },

@@ -1,6 +1,7 @@
 // pages//thematic/money_blessing/receive_result.js
 const app = getApp();
 var openid;
+var api_url = app.globalData.api_url;
 Page({
 
   /**
@@ -21,7 +22,7 @@ Page({
     var user_info = wx.getStorageSync("savor_user_info");
     openid = user_info.openid;
     wx.request({
-      url: app.globalData.api_url +'/Smallapp3/redpacket/grabBonusResult',
+      url: api_url+'/Smallapp3/redpacket/grabBonusResult',
       header: {
         'content-type': 'application/json'
       },

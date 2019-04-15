@@ -4,12 +4,36 @@ var openid;                     //用户小程序唯一标识
 var box_mac = '';               //机顶盒mac
 var page = 1;                    //当前节目单页数
 var nowtime;
+var oss_url = app.globalData.oss_url;
+var api_url = app.globalData.api_url;
 Page({
   /**
  * 页面的初始数据
  */
   data: {
-    
+    imgUrls: [
+      {
+        "image": oss_url+'/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box.jpg',
+        "target": "miniProgram",
+        "appId":"wx71cdc83866d4d28f",
+        "path":"pages/details/index?item_uid=3164341_629776",
+        "extraData":""
+      },
+      {
+        "image": oss_url+'/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box_1.jpg',
+        "target": "miniProgram",
+        "appId": "wx71cdc83866d4d28f",
+        "path": "pages/details/index?item_uid=3164341_629776",
+        "extraData": ""
+      },
+      {
+        "image": oss_url+'/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box_2.jpg',
+        "target": "miniProgram",
+        "appId": "wx71cdc83866d4d28f",
+        "path": "pages/details/index?item_uid=3164341_629776",
+        "extraData": ""
+      },
+    ],
     indicatorDots: true,  //是否显示面板指示点
     autoplay: true,      //是否自动切换
     interval: 3000,       //自动切换时间间隔
@@ -44,7 +68,7 @@ Page({
     if(code_len==3){
 
       wx.request({
-        url: app.globalData.api_url+'/smallapp/index/checkcode',
+        url: api_url+'/smallapp/index/checkcode',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -114,7 +138,7 @@ Page({
     var mobile_model = app.globalData.mobile_model;
     var forscreen_char = 'wx71cdc83866d4d28f:pages/details/index?item_uid=3164341_629776';
     wx.request({
-      url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+      url: api_url+'/Smallapp/index/recordForScreenPics',
       header: {
         'content-type': 'application/json'
       },
@@ -132,7 +156,7 @@ Page({
   //进来加载页面：
   onLoad: function (options) {
     /*wx.request({
-      url: app.globalData.api_url+'/systemtime.php',
+      url: api_url+'/systemtime.php',
       success:function(e){
         wx.setStorage({
           key: 'savor_now_time',
@@ -141,7 +165,7 @@ Page({
       }
     })*/
     wx.request({
-      url: app.globalData.api_url +'/smallapp21/index/getConfig',
+      url: api_url+'/smallapp21/index/getConfig',
       success: function (e) {
         wx.setStorage({
           key: 'savor_now_time',
@@ -169,7 +193,7 @@ Page({
       success: res => {
         var code = res.code; //返回code
         wx.request({
-          url: app.globalData.api_url +'/smallapp/index/getOpenid',
+          url: api_url+'/smallapp/index/getOpenid',
           data: { "code": code },
           header: {
             'content-type': 'application/json'
@@ -182,7 +206,7 @@ Page({
               var difftime = nowtime - jz_time;
               if (difftime > fztime) {
                 wx.request({
-                  url: app.globalData.api_url +'/smallapp21/index/recOverQrcodeLog',
+                  url: api_url+'/smallapp21/index/recOverQrcodeLog',
                   data: { "openid": res.data.result.openid,
                           "box_mac":box_mac,
                           "type":code_type,
@@ -209,7 +233,7 @@ Page({
             }
             //console.log(res.data.result.openid);
             wx.request({
-              url: app.globalData.api_url +'/smallapp21/index/isHaveCallBox',
+              url: api_url+'/smallapp21/index/isHaveCallBox',
               data: { "openid": res.data.result.openid},
               header: {
                 'content-type': 'application/json'
@@ -243,7 +267,7 @@ Page({
       });
       //发送随机码给电视显示 (默认用户不用填写三位呼玛)
       wx.request({
-        url: app.globalData.api_url +'/Smallapp21/Index/genCode',
+        url: api_url+'/Smallapp21/Index/genCode',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -265,7 +289,7 @@ Page({
             var code = res.data.result.code;
             
             wx.request({
-              url: app.globalData.netty_url+'/Netty/Index/index',
+              url: api_url+'/Netty/Index/index',
               headers: {
                 'Content-Type': 'application/json'
               },

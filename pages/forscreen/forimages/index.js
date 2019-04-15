@@ -14,6 +14,8 @@ var forscreen_char = '';
 var pic_show_cur = [];
 var page = 1;
 var forscreen_history_list;
+var api_url = app.globalData.api_url;
+var oss_upload_url = app.globalData.api_url;
 Page({
   data: {
     statusBarHeight: getApp().globalData.statusBarHeight,
@@ -184,7 +186,7 @@ Page({
     if (e.detail.value.upimgs8 != '' && e.detail.value.upimgs8 != undefined) upimgs[8] = e.detail.value.upimgs8;
 
     wx.request({
-      url: app.globalData.api_url +'/smallapp21/User/isForscreenIng',
+      url: api_url+'/smallapp21/User/isForscreenIng',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -210,7 +212,7 @@ Page({
                   }, 10000);
                 }
                 wx.request({
-                  url: app.globalData.api_url +'/Smallapp/Index/getOssParams',
+                  url: api_url+'/Smallapp/Index/getOssParams',
                   headers: {
                     'Content-Type': 'application/json'
                   },
@@ -228,7 +230,6 @@ Page({
           })
         }else {
           if (is_open_simple > 0) {
-            console.log('dffff');
             timer8_0 = setTimeout(function () {
               that.setData({
                 is_show_jump: true,
@@ -239,7 +240,7 @@ Page({
             }, 10000);
           }
           wx.request({
-            url: app.globalData.api_url +'/Smallapp/Index/getOssParams',
+            url: api_url+'/Smallapp/Index/getOssParams',
             headers: {
               'Content-Type': 'application/json'
             },
@@ -256,7 +257,7 @@ Page({
     })
 
     
-    function uploadOssNew(policy, signature, img_url, box_mac, openid, timestamp, flag, img_len, forscreen_char, forscreen_id, res_sup_time, avatarUrl, nickName, public_text, timer8_0) {
+    function uploadOssNew(policy, signature, img_url, box_mac, openid, timestamp, flag, img_len, forscreen_char, forscreen_id, res_sup_time, avatarUrl, nickName, public_text, timer8_0, tmp_imgs) {
 
       var filename = img_url;
       var index1 = filename.lastIndexOf(".");
@@ -269,7 +270,7 @@ Page({
       //console.log(postf_w);
 
       var upload_task = wx.uploadFile({
-        url: app.globalData.oss_upload_url,
+        url: oss_upload_url,
         filePath: img_url,
         name: 'file',
         header: {
@@ -298,7 +299,7 @@ Page({
             tmp_percent: tmp_percent
           })
         },
-        fail: function ({ errMsg }) {
+        fial: function ({ errMsg }) {
           console.log('uploadImage fial,errMsg is', errMsg)
         },
       });
@@ -310,8 +311,13 @@ Page({
         });
         if (res.progress==100){
           var res_eup_time = (new Date()).valueOf();
+          tmp_imgs[flag].is_sing_forscreen = 1;
+          
+          that.setData({
+            tmp_imgs:tmp_imgs,
+          })
           wx.request({
-                url: app.globalData.api_url +'/Smallapp21/index/recordForScreenPics',
+                url: api_url+'/Smallapp21/index/recordForScreenPics',
                 header: {
                   'content-type': 'application/json'
                 },
@@ -334,7 +340,7 @@ Page({
                 },
                 success:function(ret){
                   wx.request({
-                    url: app.globalData.api_url +'/Netty/Index/index',
+                    url: api_url+'/Netty/Index/index',
                     headers: {
                       'Content-Type': 'application/json'
                     },
@@ -356,7 +362,7 @@ Page({
                     },
                   });
                   wx.request({
-                    url: app.globalData.api_url +'/Smallapp21/ForscreenHistory/getList',
+                    url: api_url+'/Smallapp21/ForscreenHistory/getList',
                     header: {
                       'content-type': 'application/json'
                     },
@@ -402,10 +408,10 @@ Page({
         post_imgs[i] = "forscreen/resource/" + timestamp + postf;
 
         tmp_imgs[i] = { "oss_img": post_imgs[i] };
-        that.setData({
-          tmp_imgs: tmp_imgs
-        });
-        uploadOssNew(policy, signature, filename, box_mac, openid, timestamp, i, img_len, forscreen_char, forscreen_id, res_sup_time, avatarUrl, nickName, public_text, timer8_0);
+        // that.setData({
+        //   tmp_imgs: tmp_imgs
+        // });
+        uploadOssNew(policy, signature, filename, box_mac, openid, timestamp, i, img_len, forscreen_char, forscreen_id, res_sup_time, avatarUrl, nickName, public_text, timer8_0, tmp_imgs);
       }
       that.setData({
         showThird: true,
@@ -446,7 +452,7 @@ Page({
     }
     var forscreen_id = (new Date()).valueOf();
     wx.request({
-      url: app.globalData.api_url +'/Netty/Index/index',
+      url: api_url+'/Netty/Index/index',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -457,7 +463,7 @@ Page({
       },
       success: function (result) {
         wx.request({
-          url: app.globalData.api_url +'/Smallapp21/index/recordForScreenPics',
+          url: api_url+'/Smallapp21/index/recordForScreenPics',
           header: {
             'content-type': 'application/json'
           },
@@ -481,7 +487,7 @@ Page({
     box_mac = e.currentTarget.dataset.boxmac;
     var timestamp = (new Date()).valueOf();
     wx.request({
-      url: app.globalData.api_url +'/Netty/Index/index',
+      url: api_url+'/Netty/Index/index',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -575,7 +581,7 @@ Page({
     var action = 8;  //重新播放
 
     wx.request({
-      url: app.globalData.api_url +'/smallapp21/User/isForscreenIng',
+      url: api_url+'/smallapp21/User/isForscreenIng',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -593,7 +599,7 @@ Page({
                   for (var i = 0; i < res_len; i++) {
                     var order = i + 1;
                     wx.request({//start
-                      url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                      url: api_url+'/Smallapp/index/recordForScreenPics',
                       header: {
                         'content-type': 'application/json'
                       },
@@ -622,7 +628,7 @@ Page({
                     var res_id = res_list[i]['resource_id'];
 
                     wx.request({
-                      url: app.globalData.api_url +'/Netty/Index/index',
+                      url: api_url+'/Netty/Index/index',
                       headers: {
                         'Content-Type': 'application/json'
                       },
@@ -652,7 +658,7 @@ Page({
                 } else {//视频投屏
                   for (var i = 0; i < res_len; i++) {
                     wx.request({
-                      url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                      url: api_url+'/Smallapp/index/recordForScreenPics',
                       header: {
                         'content-type': 'application/json'
                       },
@@ -681,7 +687,7 @@ Page({
                     });
 
                     wx.request({
-                      url: app.globalData.api_url +'/Netty/Index/index',
+                      url: api_url+'/Netty/Index/index',
                       headers: {
                         'Content-Type': 'application/json'
                       },
@@ -716,7 +722,7 @@ Page({
             for (var i = 0; i < res_len; i++) {
               var order = i + 1;
               wx.request({//start
-                url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                url: api_url+'/Smallapp/index/recordForScreenPics',
                 header: {
                   'content-type': 'application/json'
                 },
@@ -745,7 +751,7 @@ Page({
               var res_id = res_list[i]['resource_id'];
 
               wx.request({
-                url: app.globalData.api_url +'/Netty/Index/index',
+                url: api_url+'/Netty/Index/index',
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -775,7 +781,7 @@ Page({
           } else {//视频投屏
             for (var i = 0; i < res_len; i++) {
               wx.request({
-                url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                url: api_url+'/Smallapp/index/recordForScreenPics',
                 header: {
                   'content-type': 'application/json'
                 },
@@ -804,7 +810,7 @@ Page({
               });
 
               wx.request({
-                url: app.globalData.api_url +'/Netty/Index/index',
+                url: api_url+'/Netty/Index/index',
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -850,7 +856,7 @@ Page({
       hiddens: false,
     })
     wx.request({
-      url: app.globalData.api_url +'/Smallapp21/ForscreenHistory/getList',
+      url: api_url+'/Smallapp21/ForscreenHistory/getList',
       header: {
         'Content-Type': 'application/json'
       },
@@ -881,4 +887,11 @@ Page({
       is_show_jump: false,
     })
   },
+  upload_wait:function(e){
+    wx.showToast({
+      title: '该图片未上传成功,请稍后！',
+      icon: 'none',
+      duration: 2000
+    });
+  }
 })

@@ -11,6 +11,9 @@ var forscreen_char = '';
 var res_sup_time;
 var page = 1;
 var forscreen_history_list;
+var api_url = app.globalData.api_url;
+var oss_url = app.globalData.oss_url;
+var oss_upload_url = app.globalData.oss_upload_url;
 Page({
 
   /**
@@ -113,7 +116,7 @@ Page({
     res_sup_time = (new Date()).valueOf();
     
     wx.request({
-      url: app.globalData.api_url +'/smallapp21/User/isForscreenIng',
+      url: api_url+'/smallapp21/User/isForscreenIng',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -165,7 +168,7 @@ Page({
     function uploadVedio(video, box_mac, openid, res_sup_time, is_pub_hotelinfo, is_share, duration, avatarUrl, nickName, public_text, timer8_0) {
      
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/Index/getOssParams',
+        url: api_url+'/Smallapp/Index/getOssParams',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -190,7 +193,7 @@ Page({
       var timestamp = (new Date()).valueOf();
 
       var upload_task = wx.uploadFile({
-        url: app.globalData.oss_upload_url,
+        url: oss_upload_url,
         filePath: filename,
         name: 'file',
 
@@ -219,13 +222,13 @@ Page({
           //console.log(res_eup_time);
           that.setData({
             showVedio:false,
-            oss_video_url: app.globalData.oss_url +"/forscreen/resource/" + timestamp + postf_t,
+            oss_video_url: oss_url+"/forscreen/resource/" + timestamp + postf_t,
             upload_vedio_temp:'',
             is_view_control: true,
             hiddens:true,
           })
           wx.request({
-            url: app.globalData.api_url +'/Smallapp21/index/recordForScreenPics',
+            url: api_url+'/Smallapp21/index/recordForScreenPics',
             header: {
               'content-type': 'application/json'
             },
@@ -250,7 +253,7 @@ Page({
             },
             success: function (ret) {
               wx.request({
-                url: app.globalData.api_url +'/Netty/Index/index',
+                url: api_url+'/Netty/Index/index',
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -261,14 +264,14 @@ Page({
                 },
                 success: function (result) {
                     that.setData({
-                      upload_vedio_cover: app.globalData.oss_url+'/forscreen/resource/' + timestamp + postf_t +'?x-oss-process=video/snapshot,t_2000,f_jpg,w_450,m_fast',
+                      upload_vedio_cover: 'http://oss.littlehotspot.com/forscreen/resource/' + timestamp + postf_t +'?x-oss-process=video/snapshot,t_2000,f_jpg,w_450,m_fast',
                     })
 
                 },
                 
               });
               wx.request({
-                url: app.globalData.api_url +'/Smallapp21/ForscreenHistory/getList',
+                url: api_url+'/Smallapp21/ForscreenHistory/getList',
                 header: {
                   'content-type': 'application/json'
                 },
@@ -340,7 +343,7 @@ Page({
     });
     function uploadVedio(video, box_mac, openid) {
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/Index/getOssParams',
+        url: api_url+'/Smallapp/Index/getOssParams',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -364,7 +367,7 @@ Page({
       var timestamp = (new Date()).valueOf();
 
       var upload_task = wx.uploadFile({
-        url: "https://image.littlehotspot.com",
+        url: oss_upload_url,
         filePath: filename,
         name: 'file',
 
@@ -380,23 +383,7 @@ Page({
         },
         success: function (res) {
 
-          /*wx.request({
-            url: "https://netty-push.littlehotspot.com/push/box",
-            header: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            method: "POST",
-            data: {
-              box_mac: box_mac,
-              cmd: 'call-mini-program',
-              msg: '{ "action":2, "url": "forscreen/resource/' + timestamp + postf_t + '", "filename":"' + timestamp + postf_t + '","openid":"' + openid + '","resource_type":2,"video_id":"' + timestamp+'"}',
-              req_id: timestamp
-            },
-            success: function (result) {
-             
-
-            },
-          });*/
+          
         }
       });
       upload_task.onProgressUpdate((res) => {
@@ -409,7 +396,7 @@ Page({
           //console.log(res_eup_time);
 
           wx.request({
-            url: app.globalData.api_url +'/Smallapp21/index/recordForScreenPics',
+            url: api_url+'/Smallapp21/index/recordForScreenPics',
             header: {
               'content-type': 'application/json'
             },
@@ -429,7 +416,7 @@ Page({
             },
             success:function(ret){
               wx.request({
-                url: app.globalData.api_url +'/Netty/Index/index',
+                url: api_url+'/Netty/Index/index',
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -464,7 +451,7 @@ Page({
     box_mac = e.currentTarget.dataset.boxmac;
     var timestamp = (new Date()).valueOf();
     wx.request({
-      url: app.globalData.api_url +'/Netty/Index/index',
+      url: api_url+'/Netty/Index/index',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -543,7 +530,7 @@ Page({
     var duration = 10;
 
     wx.request({
-      url: app.globalData.api_url +'/smallapp21/User/isForscreenIng',
+      url: api_url+'/smallapp21/User/isForscreenIng',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -558,7 +545,7 @@ Page({
             success: function (res) {
               if (res.confirm) {
                 wx.request({
-                  url: app.globalData.api_url +'/Netty/Index/index',
+                  url: api_url+'/Netty/Index/index',
                   headers: {
                     'Content-Type': 'application/json'
                   },
@@ -590,7 +577,7 @@ Page({
                     }, 1000);
                     //记录
                     wx.request({
-                      url: app.globalData.api_url +'/Smallapp21/index/recordForScreenPics',
+                      url: api_url+'/Smallapp21/index/recordForScreenPics',
                       header: {
                         'content-type': 'application/json'
                       },
@@ -622,7 +609,7 @@ Page({
           })
         }else {
           wx.request({
-            url: app.globalData.api_url +'/Netty/Index/index',
+            url: api_url+'/Netty/Index/index',
             headers: {
               'Content-Type': 'application/json'
             },
@@ -654,7 +641,7 @@ Page({
               }, 1000);
               //记录
               wx.request({
-                url: app.globalData.api_url +'/Smallapp21/index/recordForScreenPics',
+                url: api_url+'/Smallapp21/index/recordForScreenPics',
                 header: {
                   'content-type': 'application/json'
                 },
@@ -718,7 +705,7 @@ Page({
     var action = 8;  //重新播放
 
     wx.request({
-      url: app.globalData.api_url +'/smallapp21/User/isForscreenIng',
+      url: api_url+'/smallapp21/User/isForscreenIng',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -736,7 +723,7 @@ Page({
                   for (var i = 0; i < res_len; i++) {
                     var order = i + 1;
                     wx.request({//start
-                      url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                      url: api_url+'/Smallapp/index/recordForScreenPics',
                       header: {
                         'content-type': 'application/json'
                       },
@@ -765,7 +752,7 @@ Page({
                     var res_id = res_list[i]['resource_id'];
 
                     wx.request({
-                      url: app.globalData.api_url +'/Netty/Index/index',
+                      url: api_url+'/Netty/Index/index',
                       headers: {
                         'Content-Type': 'application/json'
                       },
@@ -795,7 +782,7 @@ Page({
                 } else {//视频投屏
                   for (var i = 0; i < res_len; i++) {
                     wx.request({
-                      url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                      url: api_url+'/Smallapp/index/recordForScreenPics',
                       header: {
                         'content-type': 'application/json'
                       },
@@ -824,7 +811,7 @@ Page({
                     });
 
                     wx.request({
-                      url: app.globalData.api_url +'/Netty/Index/index',
+                      url: api_url+'/Netty/Index/index',
                       headers: {
                         'Content-Type': 'application/json'
                       },
@@ -861,7 +848,7 @@ Page({
             for (var i = 0; i < res_len; i++) {
               var order = i + 1;
               wx.request({//start
-                url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                url: api_url+'/Smallapp/index/recordForScreenPics',
                 header: {
                   'content-type': 'application/json'
                 },
@@ -890,7 +877,7 @@ Page({
               var res_id = res_list[i]['resource_id'];
 
               wx.request({
-                url: app.globalData.api_url +'/Netty/Index/index',
+                url: api_url+'/Netty/Index/index',
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -920,7 +907,7 @@ Page({
           } else {//视频投屏
             for (var i = 0; i < res_len; i++) {
               wx.request({
-                url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                url: api_url+'/Smallapp/index/recordForScreenPics',
                 header: {
                   'content-type': 'application/json'
                 },
@@ -949,7 +936,7 @@ Page({
               });
 
               wx.request({
-                url: app.globalData.api_url +'/Netty/Index/index',
+                url: api_url+'/Netty/Index/index',
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -991,7 +978,7 @@ Page({
       hiddens: false,
     })
     wx.request({
-      url: app.globalData.api_url +'/Smallapp21/ForscreenHistory/getList',
+      url: api_url+'/Smallapp21/ForscreenHistory/getList',
       header: {
         'Content-Type': 'application/json'
       },
@@ -1021,7 +1008,7 @@ Page({
     var change_type = e.target.dataset.change_type;
     var timestamp = (new Date()).valueOf();
     wx.request({
-      url: app.globalData.api_url +'/Netty/Index/index',
+      url: api_url+'/Netty/Index/index',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -1048,7 +1035,7 @@ Page({
   //打开遥控器
   openControl: function (e) {
     var that = this;
-    var qrcode_url = app.globalData.api_url +'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
+    var qrcode_url = api_url+'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
     console.log(qrcode_url);
     that.setData({
 

@@ -1,5 +1,6 @@
 // pages/activity/turntable/game.js
 const app = getApp();
+var api_url = app.globalData.api_url;
 Page({
   onShareAppMessage: function (res) {
     var activity_id = res.target.dataset.activity_id;
@@ -42,7 +43,7 @@ Page({
       var openid    = options.openid;              //openid
       var activity_id = options.activity_id;         //活动id
       //var activity_id  = (new Date()).valueOf();   //活动id
-      var gameCode = app.globalData.api_url+"/Smallapp/Activity/getGameCode?scene="+box_mac+"_"+activity_id;
+      var gameCode = api_url+"/Smallapp/Activity/getGameCode?scene="+box_mac+"_"+activity_id;
       that.setData({
         avatarurl:avatarurl,
         nickName :nickName,
@@ -67,56 +68,10 @@ Page({
     
    
 
-    /*wx.request({
-      url: 'https://netty-push.littlehotspot.com/push/box',
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      method: "POST",
-      data: {
-        box_mac: box_mac,
-        cmd: 'call-mini-program',
-        msg: '{"action":102,"openid":"' + openid + '","activity_id":' + activity_id+'}',
-        req_id: activity_id
-      },
-      success:function(res){
-        that.setData({
-          showStart:false,
-        })
-        if(retry==0){
-          wx.request({
-            url: app.globalData.api_url+'/smallapp/Activity/startGameLog',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            data: {
-              activity_id: activity_id,
-              startgame_time: timestamp
-            },
-            success: function (res) {
-
-            }
-          })
-        }else if(retry==1){
-          wx.request({
-            url: app.globalData.api_url+'/smallapp/Activity/retryGame',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            data: {
-              activity_id: activity_id,
-            },
-            success: function (res) {
-
-            }
-          })
-        }
-        
-      }
-    })*/
+    
     if (retry == 0) {
       wx.request({
-        url: app.globalData.api_url+'/smallapp/Activity/jugeGamePerson',
+        url: api_url+'/smallapp/Activity/jugeGamePerson',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -127,7 +82,7 @@ Page({
           var persons = res.data.result.nums;
           if (persons > 0) {
             wx.request({
-              url: app.globalData.api_url+'/smallapp/Activity/startGameLog',
+              url: api_url+'/smallapp/Activity/startGameLog',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -140,7 +95,7 @@ Page({
                   showStart: false,
                 })
                 wx.request({
-                  url: app.globalData.api_url +'/Netty/Index/index',
+                  url: api_url+'/Netty/Index/index',
                   headers: {
                     'Content-Type': 'application/json'
                   },
@@ -173,7 +128,7 @@ Page({
       
     } else if (retry == 1) {
       wx.request({
-        url: app.globalData.api_url +'/smallapp/Activity/retryGame',
+        url: api_url+'/smallapp/Activity/retryGame',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -185,7 +140,7 @@ Page({
             showStart: false,
           })
           wx.request({
-            url: app.globalData.api_url +'/Netty/Index/index',
+            url: api_url+'/Netty/Index/index',
             headers: {
               'Content-Type': 'application/json'
             },
@@ -219,7 +174,7 @@ Page({
     var openid = e.currentTarget.dataset.openid;
     var activity_id = e.currentTarget.dataset.activity_id;
     wx.request({
-      url: app.globalData.api_url +'/Netty/Index/index',
+      url: api_url+'/Netty/Index/index',
       headers: {
         'Content-Type': 'application/json'
       },

@@ -8,6 +8,7 @@ var page = 1;                    //当前节目单页数
 var user_id;
 var program_list;                //点播列表
 var openid;                      //用户openid
+var api_url = app.globalData.api_url;
 Page({
   data: {
     statusBarHeight: getApp().globalData.statusBarHeight,
@@ -36,7 +37,7 @@ Page({
       openid = app.globalData.openid;
       //判断用户是否注册
       wx.request({
-        url: app.globalData.api_url +'/smallapp21/User/isRegister',
+        url: api_url+'/smallapp21/User/isRegister',
         data: {
           "openid": app.globalData.openid,
           'page_id':1
@@ -67,7 +68,7 @@ Page({
           openid = openid;
           //判断用户是否注册
           wx.request({
-            url: app.globalData.api_url +'/smallapp21/User/isRegister',
+            url: api_url+'/smallapp21/User/isRegister',
             data: {
               "openid": app.globalData.openid,
               "page_id":1
@@ -95,7 +96,7 @@ Page({
     var user_info = wx.getStorageSync("savor_user_info");
     openid = user_info.openid;
     wx.request({
-      url: app.globalData.api_url +'/Smallapp/index/isHaveCallBox?openid=' + openid,
+      url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + openid,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -110,7 +111,7 @@ Page({
           box_mac = rest.data.result.box_mac;
           //获取节目单列表
           wx.request({//获取机顶盒节目单列表
-            url: app.globalData.api_url +'/Smallapp3/Demand/getBoxProgramList',
+            url: api_url+'/Smallapp3/Demand/getBoxProgramList',
             header: {
               'Content-Type': 'application/json'
             },
@@ -130,7 +131,7 @@ Page({
         } else {
           //获取小程序主节目单列表
           wx.request({
-            url: app.globalData.api_url +'/Smallapp3/Demand/getDemanList',
+            url: api_url+'/Smallapp3/Demand/getDemanList',
             data: {
               page: page,
               openid: openid,
@@ -169,7 +170,7 @@ Page({
   //打开遥控器
   openControl:function(e){
     var that = this;
-    var qrcode_url = app.globalData.api_url +'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
+    var qrcode_url = api_url+'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
     that.setData({
       showControl: true,
       qrcode_img: qrcode_url
@@ -229,8 +230,8 @@ Page({
     })
     if(box_mac=='' || box_mac ==undefined){
       wx.request({
-        //url: 'https://mobile.littlehotspot.com/smallapp/Demand/getList',
-        url: app.globalData.api_url +'/Smallapp3/Demand/getDemanList',
+        //url: api_url+'/smallapp/Demand/getList',
+        url: api_url+'/Smallapp3/Demand/getDemanList',
         header: {
           'Content-Type': 'application/json'
         },
@@ -255,8 +256,8 @@ Page({
       })
     }else {
       wx.request({
-        //url: 'https://mobile.littlehotspot.com/Smallapp/BoxProgram/getBoxProgramList',
-        url: app.globalData.api_url +'/Smallapp3/Demand/getBoxProgramList',
+        //url: api_url+'/Smallapp/BoxProgram/getBoxProgramList',
+        url: api_url+'/Smallapp3/Demand/getBoxProgramList',
         header: {
           'Content-Type': 'application/json'
         },
@@ -317,7 +318,7 @@ Page({
 
 
       wx.request({
-        url: app.globalData.api_url +'/smallapp21/User/isForscreenIng',
+        url: api_url+'/smallapp21/User/isForscreenIng',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -333,7 +334,7 @@ Page({
                 if (res.confirm) {
                   //console.log('用户点击确定')
                   wx.request({
-                    url: app.globalData.api_url +'/Netty/Index/index',
+                    url: api_url+'/Netty/Index/index',
                     headers: {
                       'Content-Type': 'application/json'
                     },
@@ -350,7 +351,7 @@ Page({
                           duration: 2000
                         });
                         wx.request({
-                          url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                          url: api_url+'/Smallapp/index/recordForScreenPics',
                           header: {
                             'content-type': 'application/json'
                           },
@@ -389,7 +390,7 @@ Page({
             })  
           }else {
             wx.request({
-              url: app.globalData.api_url +'/Netty/Index/index',
+              url: api_url+'/Netty/Index/index',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -406,7 +407,7 @@ Page({
                     duration: 2000
                   });
                   wx.request({
-                    url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                    url: api_url+'/Smallapp/index/recordForScreenPics',
                     header: {
                       'content-type': 'application/json'
                     },
@@ -454,7 +455,7 @@ Page({
     var res_key = e.target.dataset.res_key;
     var res_type = e.target.dataset.type;
     wx.request({
-      url: app.globalData.api_url +'/Smallapp/collect/recLogs',
+      url: api_url+'/Smallapp/collect/recLogs',
       header: {
         'content-type': 'application/json'
       },
@@ -504,7 +505,7 @@ Page({
     var res_key = e.target.dataset.res_key;
     var res_type= e.target.dataset.type;
     wx.request({
-      url: app.globalData.api_url +'/Smallapp/collect/recLogs',
+      url: api_url+'/Smallapp/collect/recLogs',
       header: {
         'content-type': 'application/json'
       },
@@ -561,7 +562,7 @@ Page({
     if (res.from === 'button') {
       // 转发成功
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/share/recLogs',
+        url: api_url+'/Smallapp/share/recLogs',
         header: {
           'content-type': 'application/json'
         },
@@ -614,7 +615,7 @@ Page({
     var timestamp = (new Date()).valueOf();
     var duration = res.currentTarget.dataset.duration;
     wx.request({
-      url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+      url: api_url+'/Smallapp/index/recordForScreenPics',
       header: {
         'content-type': 'application/json'
       },

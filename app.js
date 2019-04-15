@@ -6,7 +6,7 @@ App({
     //box_mac = e.currentTarget.dataset.boxmac;
     var timestamp = (new Date()).valueOf();
     wx.request({
-      url: that.globalData.api_url+'/Netty/Index/index',
+      url: this.globalData.api_url+'/Netty/Index/index',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -36,8 +36,9 @@ App({
   },//退出投屏结束
   //遥控器呼玛
   controlCallQrcode: function (openid, box_mac,qrcode_img){
-    var that = this;
+    
     //console.log(openid);
+    var that = this;
     if (box_mac) {
       var timestamp = (new Date()).valueOf();
       var qrcode_url = that.globalData.api_url +'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
@@ -154,7 +155,6 @@ App({
   },
   //遥控控制节目
   controlChangeProgram:function(box_mac,change_type){
-    var that = this;
     var timestamp = (new Date()).valueOf();
     wx.request({
       url: that.globalData.api_url +'/Netty/Index/index',
@@ -211,7 +211,7 @@ App({
       success: res => {
         var code = res.code; //返回code
         wx.request({
-          url: that.globalData.api_url+'/smallapp/index/getOpenid',
+          url: that.globalData.api_url +'/smallapp/index/getOpenid',
           data: {
             "code": code
           },
@@ -249,8 +249,10 @@ App({
     mobile_model: '',
     statusBarHeight: 0,
     api_url:'https://dev-mobile.littlehotspot.com',
-    netty_url:'https://dev-netty-push.littlehotspot.com',
-    oss_url: 'https://dev-oss.littlehotspot.com',
     oss_upload_url:'https://dev-image.littlehotspot.com',
+    netty_url: 'https://dev-netty-push.littlehotspot.com',
+    oss_url: 'https://dev-oss.littlehotspot.com',
+    rest_appid:'wx329d3de0b91b00a2',
+    jijian_appid:'wx8ab347a4157b133f',
   }
-}) 
+})

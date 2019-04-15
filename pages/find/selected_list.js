@@ -7,6 +7,7 @@ var page = 1; //当前节目单页数
 var discovery_list; //发现列表
 var pubdetail;
 var i;
+var api_url = app.globalData.api_url;
 Page({
 
   /**
@@ -41,7 +42,7 @@ Page({
       openid = app.globalData.openid;
       //判断用户是否注册
       wx.request({
-        url: app.globalData.api_url +'/smallapp21/User/isRegister',
+        url: api_url+'/smallapp21/User/isRegister',
         data: {
           "openid": app.globalData.openid,
           "page_id": 2
@@ -65,7 +66,7 @@ Page({
         }
       }); //判断用户是否注册结束
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/index/isHaveCallBox?openid=' + app.globalData.openid,
+        url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + app.globalData.openid,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -106,7 +107,7 @@ Page({
           openid = openid;
           //判断用户是否注册
           wx.request({
-            url: app.globalData.api_url +'/smallapp21/User/isRegister',
+            url: api_url+'/smallapp21/User/isRegister',
             data: {
               "openid": app.globalData.openid,
               "page_id": 2
@@ -130,7 +131,7 @@ Page({
             }
           }); //判断用户是否注册结束
           wx.request({
-            url: app.globalData.api_url +'/Smallapp/index/isHaveCallBox?openid=' + openid,
+            url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + openid,
             headers: {
               'Content-Type': 'application/json'
             },
@@ -163,7 +164,7 @@ Page({
 
     function getHotelInfo(box_mac) {
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/Index/getHotelInfo',
+        url: api_url+'/Smallapp/Index/getHotelInfo',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -186,7 +187,7 @@ Page({
     openid = user_info.openid;
 
     wx.request({
-      url: app.globalData.api_url +'/smallapp21/index/isOpenFind',
+      url: api_url+'/smallapp21/index/isOpenFind',
       success: function(res) {
         if (res.data.result.is_open == 0) {
 
@@ -200,7 +201,7 @@ Page({
           })
           //获取发现列表
           wx.request({
-            url: app.globalData.api_url +'/smallapp3/Find/index',
+            url: api_url+'/smallapp3/Find/index',
             data: {
               page: page,
               openid: openid,
@@ -246,7 +247,7 @@ Page({
       hiddens: false,
     })
     wx.request({
-      url: app.globalData.api_url +'/smallapp3/Find/index',
+      url: api_url+'/smallapp3/Find/index',
       header: {
         'Content-Type': 'application/json'
       },
@@ -315,7 +316,7 @@ Page({
       var forscreen_id = (new Date()).valueOf();
 
       wx.request({
-        url: app.globalData.api_url +'/smallapp21/User/isForscreenIng',
+        url: api_url+'/smallapp21/User/isForscreenIng',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -336,7 +337,7 @@ Page({
                     for (i = 0; i < res_len; i++) {
                       var order = i + 1;
                       wx.request({ //start
-                        url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                        url: api_url+'/Smallapp/index/recordForScreenPics',
                         header: {
                           'content-type': 'application/json'
                         },
@@ -366,7 +367,7 @@ Page({
                       var res_id = pubdetail[i]['res_id'];
 
                       wx.request({
-                        url: app.globalData.api_url +'/Netty/Index/index',
+                        url: api_url+'/Netty/Index/index',
                         headers: {
                           'Content-Type': 'application/json'
                         },
@@ -397,7 +398,7 @@ Page({
                   } else { //视频投屏
                     for (i = 0; i < res_len; i++) {
                       wx.request({
-                        url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                        url: api_url+'/Smallapp/index/recordForScreenPics',
                         header: {
                           'content-type': 'application/json'
                         },
@@ -425,7 +426,7 @@ Page({
                       });
 
                       wx.request({
-                        url: app.globalData.api_url +'/Netty/Index/index',
+                        url: api_url+'/Netty/Index/index',
                         headers: {
                           'Content-Type': 'application/json'
                         },
@@ -453,7 +454,7 @@ Page({
                     }
                   }
                   wx.request({
-                    url: app.globalData.api_url +'/Smallapp21/CollectCount/recCount',
+                    url: api_url+'/Smallapp21/CollectCount/recCount',
                     headers: {
                       'Content-Type': 'application/json'
                     },
@@ -472,7 +473,7 @@ Page({
               for (i = 0; i < res_len; i++) {
                 var order = i + 1;
                 wx.request({ //start
-                  url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                  url: api_url+'/Smallapp/index/recordForScreenPics',
                   header: {
                     'content-type': 'application/json'
                   },
@@ -502,7 +503,7 @@ Page({
                 var res_id = pubdetail[i]['res_id'];
 
                 wx.request({
-                  url: app.globalData.api_url +'/Netty/Index/index',
+                  url: api_url+'/Netty/Index/index',
                   headers: {
                     'Content-Type': 'application/json'
                   },
@@ -533,7 +534,7 @@ Page({
             } else { //视频投屏
               for (i = 0; i < res_len; i++) {
                 wx.request({
-                  url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+                  url: api_url+'/Smallapp/index/recordForScreenPics',
                   header: {
                     'content-type': 'application/json'
                   },
@@ -561,7 +562,7 @@ Page({
                 });
 
                 wx.request({
-                  url: app.globalData.api_url +'/Netty/Index/index',
+                  url: api_url+'/Netty/Index/index',
                   headers: {
                     'Content-Type': 'application/json'
                   },
@@ -589,7 +590,7 @@ Page({
               }
             }
             wx.request({
-              url: app.globalData.api_url +'/Smallapp21/CollectCount/recCount',
+              url: api_url+'/Smallapp21/CollectCount/recCount',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -613,7 +614,7 @@ Page({
     var res_id = e.target.dataset.res_id;
     var res_key = e.target.dataset.res_key;
     wx.request({
-      url: app.globalData.api_url +'/Smallapp/collect/recLogs',
+      url: api_url+'/Smallapp/collect/recLogs',
       header: {
         'content-type': 'application/json'
       },
@@ -666,7 +667,7 @@ Page({
     var res_key = e.target.dataset.res_key;
     var openid = e.target.dataset.openid;
     wx.request({
-      url: app.globalData.api_url +'/Smallapp/collect/recLogs',
+      url: api_url+'/Smallapp/collect/recLogs',
       header: {
         'content-type': 'application/json'
       },
@@ -732,7 +733,7 @@ Page({
     if (res.from === 'button') {
       // 转发成功
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/share/recLogs',
+        url: api_url+'/Smallapp/share/recLogs',
         header: {
           'content-type': 'application/json'
         },
@@ -786,7 +787,7 @@ Page({
     var timestamp = (new Date()).valueOf();
     var duration = res.currentTarget.dataset.duration;
     wx.request({
-      url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+      url: api_url+'/Smallapp/index/recordForScreenPics',
       header: {
         'content-type': 'application/json'
       },
@@ -820,7 +821,7 @@ Page({
   //打开遥控器
   openControl: function (e) {
     var that = this;
-    var qrcode_url = app.globalData.api_url +'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
+    var qrcode_url = api_url+'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
     that.setData({
       showControl: true,
       qrcode_img: qrcode_url

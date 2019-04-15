@@ -4,6 +4,7 @@ var box_mac;
 var activity_id;
 var openid;
 var gamecode;
+var api_url = app.globalData.api_url;
 Page({
 
   /**
@@ -28,12 +29,12 @@ Page({
     box_mac = scene[0];
     activity_id = scene[1];
 
-    gamecode = app.globalData.api_url +"/Smallapp/Activity/getGameCode?scene=" + box_mac + "_" + activity_id;
+    gamecode = api_url+"/Smallapp/Activity/getGameCode?scene=" + box_mac + "_" + activity_id;
     wx.login({
       success: res => {
         var code = res.code; //返回code
         wx.request({
-          url: app.globalData.api_url +'/smallapp/index/getOpenid',
+          url: api_url+'/smallapp/index/getOpenid',
           data: { "code": code },
           header: {
             'content-type': 'application/json'
@@ -65,14 +66,14 @@ Page({
     var avatarurl = options.detail.userInfo.avatarUrl;
     var nickname = options.detail.userInfo.nickName;
     var timestamp = (new Date()).valueOf();
-    //var gamecode = "https://mobile.littlehotspot.com/Smallapp/Activity/getGameCode?scene=" + box_mac + "_" + activity_id;
-    var gamecode = app.globalData.api_url +"/Smallapp/Activity/getGameCode";
+    //var gamecode = api_url+"/Smallapp/Activity/getGameCode?scene=" + box_mac + "_" + activity_id;
+    var gamecode = api_url+"/Smallapp/Activity/getGameCode";
     var mobile_brand = app.globalData.mobile_brand;
     var mobile_model = app.globalData.mobile_model;
 
 
     wx.request({
-      url: app.globalData.api_url +'/smallapp/Activity/canJoinGame',
+      url: api_url+'/smallapp/Activity/canJoinGame',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -84,7 +85,7 @@ Page({
         var canjoin = res.data.result.can_join;
         if(canjoin==1){
           wx.request({
-            url: app.globalData.api_url +'/smallapp/Activity/joinGameLog',
+            url: api_url+'/smallapp/Activity/joinGameLog',
             headers: {
               'Content-Type': 'application/json'
             },
@@ -98,7 +99,7 @@ Page({
             },
             success: function (res) {
               wx.request({
-                url: app.globalData.api_url +'/Netty/Index/index',
+                url: api_url+'/Netty/Index/index',
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -127,41 +128,7 @@ Page({
       }
     })
 
-    /*wx.request({
-      url: 'https://netty-push.littlehotspot.com/push/box',
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      method: "POST",
-      data: {
-        box_mac: box_mac,
-        cmd: 'call-mini-program',
-        msg: '{"action":103,"activity_id":' + activity_id + ',"openid":"' + openid + '","avatarurl":"' + avatarurl+'"}',
-        req_id: timestamp
-      },
-      success:function(res){
-        wx.navigateTo({
-          url: '/pages/activity/turntable/join_success?gamecode=' + gamecode +"&box_mac="+box_mac+"&activity_id="+activity_id,
-        });
-        wx.request({
-          url: app.globalData.api_url+'/smallapp/Activity/joinGameLog',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            activity_id: activity_id,
-            openid:openid,
-            mobile_brand: mobile_brand,
-            mobile_model: mobile_model,
-            join_time: timestamp
-            
-          },
-          success: function (res) {
-
-          }
-        })
-      }
-    })*/
+    
     
   },
  

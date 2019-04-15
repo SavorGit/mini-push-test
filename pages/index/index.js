@@ -3,6 +3,8 @@ const util = require('../../utils/util.js')
 const app = getApp()
 var openid;
 var box_mac;
+var api_url = app.globalData.api_url;
+var netty_url = app.globalData.netty_url;
 Page({
 
   /**
@@ -37,7 +39,7 @@ Page({
       openid = app.globalData.openid;
       //判断用户是否注册
       wx.request({
-        url: app.globalData.api_url+'/smallapp21/User/isRegister',
+        url: api_url+'/smallapp21/User/isRegister',
         data: {
           "openid": app.globalData.openid,
           "page_id": 3
@@ -59,7 +61,7 @@ Page({
         }
       });//判断用户是否注册结束
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/index/isHaveCallBox?openid=' + app.globalData.openid,
+        url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + app.globalData.openid,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -92,7 +94,7 @@ Page({
           openid = openid;
           //判断用户是否注册
           wx.request({
-            url: app.globalData.api_url +'/smallapp21/User/isRegister',
+            url: api_url+'/smallapp21/User/isRegister',
             data: {
               "openid": app.globalData.openid,
               "page_id": 3
@@ -114,7 +116,7 @@ Page({
             }
           });//判断用户是否注册结束
           wx.request({
-            url: app.globalData.api_url +'/Smallapp/index/isHaveCallBox?openid=' + openid,
+            url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + openid,
             headers: {
               'Content-Type': 'application/json'
             },
@@ -143,7 +145,7 @@ Page({
     }
     function getHotelInfo(box_mac) {//获取链接的酒楼信息
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/Index/getHotelInfo',
+        url: api_url+'/Smallapp/Index/getHotelInfo',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -164,7 +166,7 @@ Page({
     }
     //是否显示猴子排数banner
     wx.request({
-      url: app.globalData.api_url +'/Games/index/isViewGame',
+      url: api_url+'/Games/index/isViewGame',
       data:{
         game_id:2,
       },
@@ -184,7 +186,7 @@ Page({
     openid = user_info.openid;
     if (res.detail.errMsg =='getUserInfo:ok'){
       wx.request({
-        url: app.globalData.api_url +'/smallapp21/User/register',
+        url: api_url+'/smallapp21/User/register',
         data: {
           'openid': openid,
           'avatarUrl': res.detail.userInfo.avatarUrl,
@@ -207,7 +209,7 @@ Page({
     }
     /*else {
       wx.request({
-        url: app.globalData.api_url+'/smallapp21/User/refuseRegister',
+        url: api_url+'/smallapp21/User/refuseRegister',
         data: {
           'openid': openid,
         },
@@ -251,7 +253,7 @@ Page({
       box_mac = '';
     }
     wx.request({
-      url: app.globalData.api_url +'/Smallapp21/index/closeauthLog',
+      url: api_url+'/Smallapp21/index/closeauthLog',
       header: {
         'content-type': 'application/json'
       },
@@ -287,7 +289,7 @@ Page({
               wx.scanCode({
                 onlyFromCamera: true,
                 success: (res) => {
-                  console.log(res);
+                  //console.log(res);
                   wx.navigateTo({
                     url: '/' + res.path
                   })
@@ -378,7 +380,7 @@ Page({
       var mobile_brand = app.globalData.mobile_brand;
       var mobile_model = app.globalData.mobile_model;
       wx.request({
-        url: app.globalData.netty_url +"/push/box",
+        url: netty_url+"/push/box",
         header: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -396,7 +398,7 @@ Page({
             duration: 5000
           });
           wx.request({
-            url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+            url: api_url+'/Smallapp/index/recordForScreenPics',
             header: {
               'content-type': 'application/json'
             },
@@ -445,62 +447,7 @@ Page({
           }
         }
       });
-    }
-    /*else {
-      var openid = e.currentTarget.dataset.openid;
-      var vediourl = e.currentTarget.dataset.vediourl;
-      var forscreen_char = e.currentTarget.dataset.name;
-
-      var index1 = vediourl.lastIndexOf("/");
-      var index2 = vediourl.length;
-      var filename = vediourl.substring(index1 + 1, index2);//后缀名
-      var timestamp = (new Date()).valueOf();
-      var mobile_brand = app.globalData.mobile_brand;
-      var mobile_model = app.globalData.mobile_model;
-      wx.request({
-        url: "https://netty-push.littlehotspot.com/push/box",
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        method: "POST",
-        data: {
-          box_mac: box_mac,
-          cmd: 'call-mini-program',
-          msg: '{ "action": 5,"url":"' + vediourl + '","filename":"' + filename + '"}',
-          req_id: timestamp
-        },
-        success: function (res) {
-          wx.showToast({
-            title: '点播成功,电视即将开始播放',
-            icon: 'none',
-            duration: 5000
-          });
-          wx.request({
-            url: app.globalData.api_url+'/Smallapp/index/recordForScreenPics',
-            header: {
-              'content-type': 'application/json'
-            },
-            data: {
-              openid: openid,
-              box_mac: box_mac,
-              action: 5,
-              mobile_brand: mobile_brand,
-              mobile_model: mobile_model,
-              forscreen_char: forscreen_char,
-              imgs: '["media/resource/' + filename + '"]'
-            },
-          });
-        },
-        fail: function (res) {
-          wx.showToast({
-            title: '网络异常,点播失败',
-            icon: 'none',
-            duration: 2000
-          })
-        }
-      })
-    }*/
-    else {
+    }else {
       wx.navigateTo({
         url: '/pages/thematic/birthday/list?openid='+openid+'&box_mac='+box_mac,
       })
@@ -538,14 +485,14 @@ Page({
       //  })
         
         // wx.request({
-        //   url: 'https://mobile.littlehotspot.com/Netty/index/index',
+        //   url: api_url+'/Netty/index/index',
         //   data:{
         //     box_mac:box_mac,
         //     msg:'{"action":111}'
         //   },
         //   success:function(){
         //     wx.request({//发起互动游戏
-        //       url: 'https://mobile.littlehotspot.com/Games/ClimbTree/launchGame',
+        //       url: api_url+'/Games/ClimbTree/launchGame',
         //       data: {
         //         game_id: 2,
         //         box_mac: box_mac
@@ -567,7 +514,7 @@ Page({
     box_mac = e.currentTarget.dataset.boxmac;
     var timestamp = (new Date()).valueOf();
     wx.request({
-      url: app.globalData.api_url +'/Smallapp21/index/breakLink',
+      url: api_url+'/Smallapp21/index/breakLink',
       header: {
         'content-type': 'application/json'
       },
@@ -646,7 +593,7 @@ Page({
   //打开遥控器
   openControl: function (e) {
     var that = this;
-    var qrcode_url = app.globalData.api_url +'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
+    var qrcode_url = api_url+'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
     that.setData({
       
       popRemoteControlWindow:true,

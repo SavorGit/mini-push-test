@@ -1,6 +1,8 @@
 // pages/interact/index.js
 const app = getApp()
 var openid;
+var api_url = app.globalData.api_url;
+var netty_url = app.globalData.netty_url;
 Page({
 
   /**
@@ -29,7 +31,7 @@ Page({
         openid: app.globalData.openid
       })
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/index/isHaveCallBox?openid=' + app.globalData.openid,
+        url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + app.globalData.openid,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -62,7 +64,7 @@ Page({
             openid: openid
           })
           wx.request({
-            url: app.globalData.api_url +'/Smallapp/index/isHaveCallBox?openid=' + openid,
+            url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + openid,
             headers: {
               'Content-Type': 'application/json'
             },
@@ -90,7 +92,7 @@ Page({
     }
     function getHotelInfo(box_mac) {
       wx.request({
-        url: app.globalData.api_url +'/Smallapp/Index/getHotelInfo',
+        url: api_url+'/Smallapp/Index/getHotelInfo',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -205,7 +207,7 @@ Page({
       var mobile_brand = app.globalData.mobile_brand;
       var mobile_model = app.globalData.mobile_model;
       wx.request({
-        url: "https://netty-push.littlehotspot.com/push/box",
+        url: netty_url+"/push/box",
         header: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -223,7 +225,7 @@ Page({
             duration: 2000
           });
           wx.request({
-            url: app.globalData.api_url +'/Smallapp/index/recordForScreenPics',
+            url: api_url+'/Smallapp/index/recordForScreenPics',
             header: {
               'content-type': 'application/json'
             },
