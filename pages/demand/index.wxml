@@ -24,12 +24,18 @@
 
     <!-- 轮播图开始 -->
     <swiper wx:if="{{imgUrls.length > 0}}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-      <block wx:for="{{imgUrls}}" wx:key="item">
-        <navigator bindtap='jumpMimiPro' data-boxmac="{{box_mac}}" data-openid="{{openid}}" target="{{item.target}}" open-type="navigate" app-id="{{item.appId}}" path="{{item.path}}" extra-data="{{item.extraData}}" version="release" url="{{item.url}}">
+      <block wx:for="{{imgUrls}}" wx:key="item" wx:for-index="index">
+        <navigator wx:if="{{item.elementName == 'navigator'}}" class='full_width full_height' bindtap='jumpMimiPro' data-boxmac="{{box_mac}}" data-openid="{{openid}}" data-index='{{index}}' target="{{item.target}}" open-type="navigate" app-id="{{item.appId}}"
+          path="{{item.path}}" extra-data="{{item.extraData}}" version="release" url="{{item.url}}">
           <swiper-item>
             <image mode='aspectFill' src="{{item.image}}" class="slide-image" />
           </swiper-item>
         </navigator>
+        <button wx:if="{{item.elementName == 'button'}}" class='full_width full_height' bindtap='clickSwiperItem' data-boxmac="{{box_mac}}" data-openid="{{openid}}" data-index='{{index}}'>
+          <swiper-item>
+            <image mode='aspectFill' src="{{item.image}}" class="slide-image" />
+          </swiper-item>
+        </button>
       </block>
     </swiper>
     <!-- 轮播图结束 -->
