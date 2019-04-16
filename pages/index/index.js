@@ -25,6 +25,10 @@ Page({
     is_game_banner:0,  //是否显示猴子爬树游戏banner
     is_open_simple: 0,
     imgUrls: [],
+    indicatorDots: true,  //是否显示面板指示点
+    autoplay: true,      //是否自动切换
+    interval: 3000,       //自动切换时间间隔
+    lb_duration: 1000,       //滑动动画时长
   },
 
   /**
@@ -166,7 +170,7 @@ Page({
       })
     }
     //是否显示猴子排数banner
-    wx.request({
+    /*wx.request({
       url: api_url+'/Games/index/isViewGame',
       data:{
         game_id:2,
@@ -188,7 +192,22 @@ Page({
           banner_img_url: img_url
         })
       }
+    })*/
+    wx.request({
+      url: api_url +'/Smallapp3/Adsposition/getAdspositionList',
+      data: {
+        position: 2,
+      },
+      success:function(res){
+        if(res.data.code==10000){
+          var imgUrls = res.data.result;
+          that.setData({
+            imgUrls:res.data.result
+          })
+        }
+      }
     })
+
   },
   onGetUserInfo: function (res) { 
     var that = this;
@@ -467,6 +486,8 @@ Page({
   hdgames(e) {
      var openid = e.currentTarget.dataset.openid;
      var box_mac = e.currentTarget.dataset.boxmac;
+     var linkcontent = e.currentTarget.dataset.linkcontent;
+     
      if (box_mac == '') {
        wx.showModal({
          title: '提示',
@@ -490,33 +511,14 @@ Page({
      }else {
        var mobile_brand = app.globalData.mobile_brand;
        var mobile_model = app.globalData.mobile_model;
-      //  wx.navigateTo({
-      //    url: '/pages/activity/turntable/index?box_mac=' + box_mac + '&openid=' + openid,
-      //  })
-        
-        // wx.request({
-        //   url: api_url+'/Netty/index/index',
-        //   data:{
-        //     box_mac:box_mac,
-        //     msg:'{"action":111}'
-        //   },
-        //   success:function(){
-        //     wx.request({//发起互动游戏
-        //       url: api_url+'/Games/ClimbTree/launchGame',
-        //       data: {
-        //         game_id: 2,
-        //         box_mac: box_mac
-        //       },
-             
-        //     })
-        //   }
-        // })
+      
         wx.navigateTo({
-          url: '/pages/game/climbtree/index?box_mac='+box_mac+'&game_id=2'
+          url: linkcontent+'?box_mac='+box_mac+'&openid='+openid+'&game_id=2'
         })
     }
     
   },
+  
   //断开连接
   breakLink: function (e) {
     var that = this;

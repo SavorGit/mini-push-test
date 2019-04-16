@@ -23,6 +23,10 @@ Page({
     hiddens: true,
     box_mac: '',
     showControl:false,
+    indicatorDots: true,  //是否显示面板指示点
+    autoplay: true,      //是否自动切换
+    interval: 3000,       //自动切换时间间隔
+    lb_duration: 1000,       //滑动动画时长
   },  
 
   onLoad: function () {
@@ -156,7 +160,20 @@ Page({
         }
       }
     })
-    
+    wx.request({
+      url: api_url + '/Smallapp3/Adsposition/getAdspositionList',
+      data: {
+        position: 2,
+      },
+      success: function (res) {
+        if (res.data.code == 10000) {
+          var imgUrls = res.data.result;
+          that.setData({
+            imgUrls: res.data.result
+          })
+        }
+      }
+    })
     
   },
   //遥控呼大码
