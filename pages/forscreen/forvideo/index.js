@@ -44,7 +44,8 @@ Page({
     forscreen_history_list:'',
     hiddens: true,   //上拉加载中,
     load_fresh_char:'',
-    is_view_control:false,
+    is_view_control:true,
+    is_open_control: false,
   },
 
   /**
@@ -1065,7 +1066,7 @@ Page({
     var qrcode_url = api_url+'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
     console.log(qrcode_url);
     that.setData({
-
+      is_open_control : true,
       popRemoteControlWindow: true,
       qrcode_img: qrcode_url
     })
@@ -1074,7 +1075,7 @@ Page({
   closeControl: function (e) {
     var that = this;
     that.setData({
-
+      is_open_control: false,
       popRemoteControlWindow: false,
     })
 
