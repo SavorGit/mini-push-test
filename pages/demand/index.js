@@ -655,5 +655,41 @@ Page({
         duration: duration,
       },
     });
-  }
+  },
+  //互动游戏
+  hdgames(e) {
+    var openid = e.currentTarget.dataset.openid;
+    var box_mac = e.currentTarget.dataset.boxmac;
+    var linkcontent = e.currentTarget.dataset.linkcontent;
+
+    if (box_mac == '') {
+      wx.showModal({
+        title: '提示',
+        content: "您可扫码链接热点合作餐厅电视,使用此功能",
+        showCancel: true,
+        confirmText: '立即扫码',
+        success: function (res) {
+          if (res.confirm == true) {
+            wx.scanCode({
+              onlyFromCamera: true,
+              success: (res) => {
+                //console.log(res);
+                wx.navigateTo({
+                  url: '/' + res.path
+                })
+              }
+            })
+          }
+        }
+      });
+    } else {
+      var mobile_brand = app.globalData.mobile_brand;
+      var mobile_model = app.globalData.mobile_model;
+
+      wx.navigateTo({
+        url: linkcontent + '?box_mac=' + box_mac + '&openid=' + openid + '&game_id=2'
+      })
+    }
+
+  },
 })
