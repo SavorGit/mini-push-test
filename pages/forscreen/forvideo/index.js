@@ -139,6 +139,20 @@ Page({
 
                     })
                   }, 10000);
+                }else{
+                  timer8_0 = setTimeout(function () {
+                    that.setData({
+                      hiddens: true,
+                      is_btn_disabel: false,
+                      hiddens: true,
+                      is_btn_disabel: false,
+                    })
+                    wx.showToast({
+                      title: '投屏超时，请重试',
+                      icon: 'none',
+                      duration: 2000
+                    })
+                  }, 60000);
                 }
                 uploadVedio(video, box_mac, openid, res_sup_time, is_pub_hotelinfo, is_share, duration, avatarUrl, nickName, public_text, timer8_0);
               }else {
@@ -151,10 +165,23 @@ Page({
             timer8_0 = setTimeout(function () {
               that.setData({
                 is_show_jump: true,
-                show: true
-
+                show: true,
+                hiddens: true,
+                is_btn_disabel: false,
               })
             }, 10000);
+          }else {
+            timer8_0 = setTimeout(function () {
+              that.setData({
+                hiddens: true,
+                is_btn_disabel: false,
+              })
+              wx.showToast({
+                title: '投屏超时，请重试',
+                icon: 'none',
+                duration: 2000
+              })
+            }, 60000);
           }
           uploadVedio(video, box_mac, openid, res_sup_time, is_pub_hotelinfo, is_share, duration, avatarUrl, nickName, public_text, timer8_0);
         }

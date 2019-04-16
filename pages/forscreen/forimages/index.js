@@ -15,7 +15,7 @@ var pic_show_cur = [];
 var page = 1;
 var forscreen_history_list;
 var api_url = app.globalData.api_url;
-var oss_upload_url = app.globalData.api_url;
+var oss_upload_url = app.globalData.oss_upload_url;
 Page({
   data: {
     statusBarHeight: getApp().globalData.statusBarHeight,
@@ -268,7 +268,6 @@ Page({
       var postf_t = filename.substring(index1, index2);//后缀名
       var postf_w = filename.substring(index1 + 1, index2);//后缀名
       //console.log(postf_w);
-
       var upload_task = wx.uploadFile({
         url: oss_upload_url,
         filePath: img_url,
