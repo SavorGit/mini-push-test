@@ -24,6 +24,7 @@
         </view>
 
         <view class="weui-grids" wx:if="{{bean.res_type == 1 && (bean.res_nums=='2' || bean.res_nums=='3' || bean.res_nums=='5' || bean.res_nums=='6')}}">
+
           <view class="weui-grid" wx:for="{{bean.list}}" wx:key="pkey" wx:for-item="item" wx:for-index="indexs">
             <image bindtap="previewImage" data-pkey="{{indexs}}" data-src="{{bean.list}}" class="pic_show" mode='aspectFill' src="{{item.res_url}}"></image>
           </view>
@@ -37,25 +38,25 @@
         </view>
         <view class="video" wx:if="{{bean.res_type == 2 }}">
           <view wx:for="{{bean.list}}" wx:key="pkey" wx:for-item="item" wx:for-index="indexs">
-            <navigator  data-openid='{{openid}}' data-box_mac='{{box_mac}}' data-res_type="{{item.res_type}}" data-resource_id="{{bean.resource_id}}" data-forscreen_url="{{item.forscreen_url}}" url="/pages/forscreen/history/video?video_url={{item.res_url}}&duration={{item.duration}}&filename={{item.filename}}&forscreen_url={{item.forscreen_url}}&resource_id={{item.resource_id}}">
-              <!-- <video src="{{item.res_url}}"></video> -->
-              <image src='{{item.imgurl}}'></image>
+            <navigator bindtap='findLog' data-openid='{{openid}}' data-box_mac='{{box_mac}}' data-title='' data-tx_url='{{item.forscreen_url}}' data-id='{{bean.forscreen_id}}' data-duration="{{item.duration}}" url="">
+              
+              <video src="{{item.res_url}}"></video>
             </navigator>
-            <view class="cover">
-              <navigator url="{{item.res_url}}">
+            <!-- <view class="cover">
+              <navigator url="">
                 <image src='/images/icon2/FFFFFF_play.png'></image>
               </navigator>
               <view>
                 <label class='font_F6F3EE_20'>{{item.duration}}</label>
               </view>
-            </view>
+            </view> -->
           </view>
         </view>
       </view>
       <view class='con_bottom'></view>
     </view>
 
-
+    
 
     <view class="body-view">
       <loading hidden="{{hiddens}}" bindchange="loadingChange">加载中...</loading>

@@ -4,7 +4,6 @@ const app = getApp()
 var openid;
 var box_mac;
 var api_url = app.globalData.api_url;
-var netty_url = app.globalData.netty_url;
 Page({
 
   /**
@@ -23,8 +22,9 @@ Page({
     happy_vedio_title: '',          //生日视频标题
     showModal: false,   //显示授权登陆弹窗
     is_game_banner:0,  //是否显示猴子爬树游戏banner
-    is_open_simple: 0,
+    is_open_simple:0,
     imgUrls: [],
+
     indicatorDots: true,  //是否显示面板指示点
     autoplay: true,      //是否自动切换
     interval: 3000,       //自动切换时间间隔
@@ -35,7 +35,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.hideShareMenu();
     var that = this;
     if (app.globalData.openid && app.globalData.openid != '') { 
       that.setData({
@@ -57,6 +56,11 @@ Page({
             key: 'savor_user_info',
             data: res.data.result.userinfo,
           })
+          if (res.data.result.userinfo.is_wx_auth != 3) {
+            that.setData({
+              showModal: true
+            })
+          }
         },
         fail: function (e) {
           wx.setStorage({
@@ -66,7 +70,7 @@ Page({
         }
       });//判断用户是否注册结束
       wx.request({
-        url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + app.globalData.openid,
+        url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + app.globalData.openid ,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -112,6 +116,11 @@ Page({
                 key: 'savor_user_info',
                 data: res.data.result.userinfo,
               })
+              if (res.data.result.userinfo.is_wx_auth !=3){
+                that.setData({
+                  showModal: true
+                })
+              }
             }, 
             fail: function (e) {
               wx.setStorage({
@@ -121,7 +130,7 @@ Page({
             }
           });//判断用户是否注册结束
           wx.request({
-            url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + openid,
+            url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + openid ,
             headers: {
               'Content-Type': 'application/json'
             },
@@ -169,40 +178,16 @@ Page({
         }
       })
     }
-    //是否显示猴子排数banner
-    /*wx.request({
-      url: api_url+'/Games/index/isViewGame',
-      data:{
-        game_id:2,
-      },
-      success:function(res){
-        var is_game_banner = res.data.result.status;
-        var img_url = res.data.result.img_url;
-        that.setData({
-          is_game_banner: is_game_banner,
-          imgUrls: [{
-            image:img_url,
-            elementName:'button',
-            target:'',
-            appId:'',
-            path:'',
-            extraData:{},
-            url:''
-          }],
-          banner_img_url: img_url
-        })
-      }
-    })*/
     wx.request({
-      url: api_url +'/Smallapp3/Adsposition/getAdspositionList',
+      url:  api_url+'/Smallapp3/Adsposition/getAdspositionList',
       data: {
         position: 2,
       },
-      success:function(res){
-        if(res.data.code==10000){
+      success: function (res) {
+        if (res.data.code == 10000) {
           var imgUrls = res.data.result;
           that.setData({
-            imgUrls:res.data.result
+            imgUrls: res.data.result
           })
         }
       }
@@ -211,32 +196,56 @@ Page({
   },
   onGetUserInfo: function (res) { 
     var that = this;
+    
     var user_info = wx.getStorageSync("savor_user_info");
     openid = user_info.openid;
-    if (res.detail.errMsg =='getUserInfo:ok'){
-      wx.request({
-        url: api_url+'/smallapp21/User/register',
-        data: {
-          'openid': openid,
-          'avatarUrl': res.detail.userInfo.avatarUrl,
-          'nickName': res.detail.userInfo.nickName,
-          'gender': res.detail.userInfo.gender
-        },
-        header: {
-          'content-type': 'application/json'
-        },
-        success: function (res) {
-          wx.setStorage({
-            key: 'savor_user_info',
-            data: res.data.result,
-          });
-          that.setData({
-            showModal: false,
+    if (res.detail.errMsg == 'getUserInfo:ok') {
+      wx.getUserInfo({
+        success(rets) {
+          wx.request({
+            url: api_url+'/smallapp3/User/registerCom',
+            data: {
+              'openid': openid,
+              'avatarUrl': rets.userInfo.avatarUrl,
+              'nickName': rets.userInfo.nickName,
+              'gender': rets.userInfo.gender,
+              'session_key': app.globalData.session_key,
+              'iv': rets.iv,
+              'encryptedData': rets.encryptedData
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+              if (res.data.code == 10000) {
+                wx.setStorage({
+                  key: 'savor_user_info',
+                  data: res.data.result,
+                });
+                that.setData({
+                  showModal: false,
+                })
+              } else {
+                wx.showToast({
+                  title: '微信授权登陆失败，请重试',
+                  icon: 'none',
+                  duration: 2000,
+
+                })
+              }
+
+            }, 
+            fail: function (res) {
+              wx.showToast({
+                title: '微信登陆失败，请重试',
+                icon: 'none',
+                duration: 2000
+              });
+            }
           })
         }
       })
-    }
-    /*else {
+    }else {
       wx.request({
         url: api_url+'/smallapp21/User/refuseRegister',
         data: {
@@ -245,28 +254,27 @@ Page({
         header: {
           'content-type': 'application/json'
         },
-        success:function(res){
-          if(res.data.code==10000){
-            user_info['is_wx_auth'] =1;
+        success: function (res) {
+          if (res.data.code == 10000) {
+            user_info['is_wx_auth'] = 1;
             wx.setStorage({
               key: 'savor_user_info',
               data: user_info,
             })
-            that.setData({
-              showModal: false,
-            })
-          }else {
+            
+          } else {
             wx.showToast({
               title: '拒绝失败,请重试',
               icon: 'none',
               duration: 2000
             });
           }
-          
+
         }
       })
-      
-    }*/
+    }
+    
+    
   },
   //关闭授权弹窗
   closeAuth:function(){
@@ -299,7 +307,7 @@ Page({
   chooseImage(e) {
     var that = this;
     var user_info = wx.getStorageSync("savor_user_info");
-    if (user_info.is_wx_auth!=2){
+    if (user_info.is_wx_auth!=3){
       that.setData({
         showModal:true
       })
@@ -308,25 +316,8 @@ Page({
       var openid = e.currentTarget.dataset.openid;
       var is_open_simple = e.currentTarget.dataset.is_open_simple;
       if (box_mac == '') {
-        wx.showModal({
-          title: '提示',
-          content: "您可扫码链接热点合作餐厅电视,使用此功能",
-          showCancel: true,
-          confirmText: '立即扫码',
-          success: function (res) {
-            if (res.confirm == true) {
-              wx.scanCode({
-                onlyFromCamera: true,
-                success: (res) => {
-                  //console.log(res);
-                  wx.navigateTo({
-                    url: '/' + res.path
-                  })
-                }
-              })
-            }
-          }
-        });
+        
+        app.scanQrcode();
       } else {
         wx.navigateTo({
           url: '/pages/forscreen/forimages/index?box_mac=' + box_mac + '&openid=' + openid + '&is_open_simple=' + is_open_simple,
@@ -338,7 +329,7 @@ Page({
   chooseVedio(e) {
     var that = this
     var user_info = wx.getStorageSync("savor_user_info");
-    if (user_info.is_wx_auth !=2) {
+    if (user_info.is_wx_auth !=3) {
       that.setData({
         showModal: true
       })
@@ -347,25 +338,7 @@ Page({
       var openid = e.currentTarget.dataset.openid;
       var is_open_simple = e.currentTarget.dataset.is_open_simple;
       if (box_mac == '') {
-        wx.showModal({
-          title: '提示',
-          content: "您可扫码链接热点合作餐厅电视,使用此功能",
-          showCancel: true,
-          confirmText: '立即扫码',
-          success: function (res) {
-            if (res.confirm == true) {
-              wx.scanCode({
-                onlyFromCamera: true,
-                success: (res) => {
-                  //console.log(res);
-                  wx.navigateTo({
-                    url: '/' + res.path
-                  })
-                }
-              })
-            }
-          }
-        });
+        app.scanQrcode();
       } else {
         wx.navigateTo({
           url: '/pages/forscreen/forvideo/index?box_mac=' + box_mac + '&openid=' + openid + '&is_open_simple=' + is_open_simple,
@@ -375,107 +348,12 @@ Page({
 
     
   },
-  boxShow(e) {//视频点播让盒子播放 生日歌
-    var box_mac = e.currentTarget.dataset.boxmac;
-    if (box_mac == '') {
-      wx.showModal({
-        title: '提示',
-        content: "您可扫码链接热点合作餐厅电视,使用此功能",
-        showCancel: true,
-        confirmText: '立即扫码',
-        success: function (res) {
-          if (res.confirm == true) {
-            wx.scanCode({
-              onlyFromCamera: true,
-              success: (res) => {
-                //console.log(res);
-                wx.navigateTo({
-                  url: '/' + res.path
-                })
-              }
-            })
-          }
-        }
-      });
-    }else {
-      var openid = e.currentTarget.dataset.openid;
-      var vediourl = e.currentTarget.dataset.vediourl;
-      var forscreen_char = e.currentTarget.dataset.name;
-
-      var index1 = vediourl.lastIndexOf("/");
-      var index2 = vediourl.length;
-      var filename = vediourl.substring(index1 + 1, index2);//后缀名
-      var timestamp = (new Date()).valueOf();
-      var mobile_brand = app.globalData.mobile_brand;
-      var mobile_model = app.globalData.mobile_model;
-      wx.request({
-        url: netty_url+"/push/box",
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        method: "POST",
-        data: {
-          box_mac: box_mac,
-          cmd: 'call-mini-program',
-          msg: '{ "action": 5,"url":"' + vediourl + '","filename":"' + filename + '"}',
-          req_id: timestamp
-        },
-        success: function (res) {
-          wx.showToast({
-            title: '点播成功,电视即将开始播放',
-            icon: 'none',
-            duration: 5000
-          });
-          wx.request({
-            url: api_url+'/Smallapp/index/recordForScreenPics',
-            header: {
-              'content-type': 'application/json'
-            },
-            data: {
-              openid: openid,
-              box_mac: box_mac,
-              action: 5,
-              mobile_brand: mobile_brand,
-              mobile_model: mobile_model,
-              forscreen_char: forscreen_char,
-              imgs: '["media/resource/' + filename + '"]'
-            },
-          });
-        },
-        fail: function (res) {
-          wx.showToast({
-            title: '网络异常,点播失败',
-            icon: 'none',
-            duration: 2000
-          })
-        }
-      })
-    }
-    
-  },
+  
   showHappy(e) {//视频点播让盒子播放
     var box_mac = e.currentTarget.dataset.boxmac;
     var openid = e.currentTarget.dataset.openid;
     if (box_mac == '') {
-      wx.showModal({
-        title: '提示',
-        content: "您可扫码链接热点合作餐厅电视,使用此功能",
-        showCancel: true,
-        confirmText: '立即扫码',
-        success: function (res) {
-          if (res.confirm == true) {
-            wx.scanCode({
-              onlyFromCamera: true,
-              success: (res) => {
-                //console.log(res);
-                wx.navigateTo({
-                  url: '/' + res.path
-                })
-              }
-            })
-          }
-        }
-      });
+      app.scanQrcode();
     }else {
       wx.navigateTo({
         url: '/pages/thematic/birthday/list?openid='+openid+'&box_mac='+box_mac,
@@ -484,41 +362,22 @@ Page({
   },
   //互动游戏
   hdgames(e) {
-     var openid = e.currentTarget.dataset.openid;
-     var box_mac = e.currentTarget.dataset.boxmac;
-     var linkcontent = e.currentTarget.dataset.linkcontent;
-     
-     if (box_mac == '') {
-       wx.showModal({
-         title: '提示',
-         content: "您可扫码链接热点合作餐厅电视,使用此功能",
-         showCancel: true,
-         confirmText: '立即扫码',
-         success: function (res) {
-           if (res.confirm == true) {
-             wx.scanCode({
-               onlyFromCamera: true,
-               success: (res) => {
-                 //console.log(res);
-                 wx.navigateTo({
-                   url: '/' + res.path
-                 })
-               }
-             })
-           }
-         }
-       });
-     }else {
-       var mobile_brand = app.globalData.mobile_brand;
-       var mobile_model = app.globalData.mobile_model;
-      
-        wx.navigateTo({
-          url: linkcontent+'?box_mac='+box_mac+'&openid='+openid+'&game_id=2'
-        })
+    var openid = e.currentTarget.dataset.openid;
+    var box_mac = e.currentTarget.dataset.boxmac;
+    var linkcontent = e.currentTarget.dataset.linkcontent;
+
+    if (box_mac == '') {
+      app.scanQrcode();
+    } else {
+      var mobile_brand = app.globalData.mobile_brand;
+      var mobile_model = app.globalData.mobile_model;
+
+      wx.navigateTo({
+        url: linkcontent + '?box_mac=' + box_mac + '&openid=' + openid + '&game_id=2'
+      })
     }
-    
+
   },
-  
   //断开连接
   breakLink: function (e) {
     var that = this;
@@ -570,25 +429,7 @@ Page({
     var box_mac = e.currentTarget.dataset.boxmac;
     var openid  = e.currentTarget.dataset.openid;
     if (box_mac == '') {
-      wx.showModal({
-        title: '提示',
-        content: "您可扫码链接热点合作餐厅电视,使用此功能",
-        showCancel: true,
-        confirmText: '立即扫码',
-        success: function (res) {
-          if (res.confirm == true) {
-            wx.scanCode({
-              onlyFromCamera: true,
-              success: (res) => {
-                //console.log(res);
-                wx.navigateTo({
-                  url: '/' + res.path
-                })
-              }
-            })
-          }
-        }
-      });
+      app.scanQrcode();
     }else {
       wx.navigateTo({
         url: '/pages/forscreen/history/list?openid='+openid+'&box_mac='+box_mac,

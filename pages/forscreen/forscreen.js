@@ -4,7 +4,6 @@ var openid;                     //用户小程序唯一标识
 var box_mac = '';               //机顶盒mac
 var page = 1;                    //当前节目单页数
 var nowtime;
-var oss_url = app.globalData.oss_url;
 var api_url = app.globalData.api_url;
 Page({
   /**
@@ -13,21 +12,21 @@ Page({
   data: {
     imgUrls: [
       {
-        "image": oss_url+'/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box.jpg',
+        "image": 'http://oss.littlehotspot.com/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box.jpg',
         "target": "miniProgram",
         "appId":"wx71cdc83866d4d28f",
         "path":"pages/details/index?item_uid=3164341_629776",
         "extraData":""
       },
       {
-        "image": oss_url+'/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box_1.jpg',
+        "image": 'http://oss.littlehotspot.com/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box_1.jpg',
         "target": "miniProgram",
         "appId": "wx71cdc83866d4d28f",
         "path": "pages/details/index?item_uid=3164341_629776",
         "extraData": ""
       },
       {
-        "image": oss_url+'/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box_2.jpg',
+        "image": 'http://oss.littlehotspot.com/WeChat/MiniProgram/LaunchScreen/source/images/ads/ad_child_box_2.jpg',
         "target": "miniProgram",
         "appId": "wx71cdc83866d4d28f",
         "path": "pages/details/index?item_uid=3164341_629776",
@@ -179,13 +178,18 @@ Page({
     //console.log(nowtime);
     //box_mac = decodeURIComponent(options.scene);
     nowtime = sysconfig.sys_time;
-    var scene = decodeURIComponent(options.scene);
+    if(typeof(options.q)=='undefined'){
+      var scene = decodeURIComponent(options.scene);
+      
+    }else {
+      var q = decodeURIComponent(options.q);
+      var selemite = q.indexOf("?");
+      var scene = q.substring(selemite+7, q.length);
+    }
     var scene_arr = scene.split('_');
     box_mac = scene_arr[0];
     var code_type = scene_arr[1];
     var jz_time = scene_arr[2];
-    
-    
     //console.log(scene_arr);
     //return false;
     var that = this
@@ -231,31 +235,51 @@ Page({
                 return false;
               }
             }
-            //console.log(res.data.result.openid);
-            wx.request({
-              url: api_url+'/smallapp21/index/isHaveCallBox',
-              data: { "openid": res.data.result.openid},
-              header: {
-                'content-type': 'application/json'
-              },
-              success: function (rets) {
-                
-                if (rets.data.result.is_have==1){
-                  /*wx.switchTab({
+            if (code_type==7){
+              wx.request({
+                url: api_url+'/smallapp3/index/recodeQrcodeLog',
+                data:{
+                  openid:res.data.result.openid,
+                  type :7
+                },
+                success:function(rts){
+                  wx.reLaunch({
                     url: '../index/index',
-                    success: function (e) {
-                      var page = getCurrentPages().pop();
-                      if (page == undefined || page == null) return;
-                      page.onLoad();
-                    }
-                  });*/
+                  })
+                },fail:function(rts){
                   wx.reLaunch({
                     url: '../index/index',
                   })
                 }
-              }
-            });
-            setInfos(box_mac, res.data.result.openid, code_type);
+              })
+            }else {
+              wx.request({
+                url: api_url+'/smallapp21/index/isHaveCallBox',
+                data: { "openid": res.data.result.openid },
+                header: {
+                  'content-type': 'application/json'
+                },
+                success: function (rets) {
+
+                  if (rets.data.result.is_have == 1) {
+                    /*wx.switchTab({
+                      url: '../index/index',
+                      success: function (e) {
+                        var page = getCurrentPages().pop();
+                        if (page == undefined || page == null) return;
+                        page.onLoad();
+                      }
+                    });*/
+                    wx.reLaunch({
+                      url: '../index/index',
+                    })
+                  }
+                }
+              });
+              setInfos(box_mac, res.data.result.openid, code_type);
+            }
+            //console.log(res.data.result.openid);
+            
           }
         })
       }

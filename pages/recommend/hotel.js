@@ -34,7 +34,7 @@ Page({
 
     hiddens: true, //加载更多
     box_mac: '', //机顶盒mac
-    close_hotel_hint: 0,
+    close_hotel_hint: 1,
     
 
   },
@@ -248,7 +248,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    wx.hideShareMenu();
+    //wx.hideShareMenu();
     var that = this;
     var user_info = wx.getStorageSync("savor_user_info");
     openid = user_info.openid;

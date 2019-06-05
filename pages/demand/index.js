@@ -23,6 +23,7 @@ Page({
     hiddens: true,
     box_mac: '',
     showControl:false,
+
     indicatorDots: true,  //是否显示面板指示点
     autoplay: true,      //是否自动切换
     interval: 3000,       //自动切换时间间隔
@@ -30,7 +31,7 @@ Page({
   },  
 
   onLoad: function () {
-    wx.hideShareMenu();
+    //wx.hideShareMenu();
     var that = this;
     var user_info = wx.getStorageSync('savor_user_info')
     if (app.globalData.openid && app.globalData.openid != '') {
@@ -161,9 +162,9 @@ Page({
       }
     })
     wx.request({
-      url: api_url + '/Smallapp3/Adsposition/getAdspositionList',
+      url: api_url+'/Smallapp3/Adsposition/getAdspositionList',
       data: {
-        position: 2,
+        position: 1,
       },
       success: function (res) {
         if (res.data.code == 10000) {
@@ -224,19 +225,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.onLoad()
+    //this.onLoad()
   },
-  scanqrcode() {
-    wx.scanCode({
-      onlyFromCamera: true,
-      success: (res) => {
-        //console.log(res);
-        wx.navigateTo({
-          url: '/' + res.path
-        })
-      }
-    })
-  },
+  
   //上拉刷新
   loadMore: function (e) {
     var that = this;
@@ -301,26 +292,7 @@ Page({
     
 
     if (box_mac == '') {
-      wx.showModal({
-        title: '提示',
-        content: "您可扫码链接热点合作餐厅电视,使用此功能",
-        showCancel: true,
-        confirmText: '立即扫码',
-        success: function (res) {
-          if (res.confirm == true) {
-            wx.scanCode({
-              onlyFromCamera: true,
-              success: (res) => {
-                //console.log(res);
-                wx.navigateTo({
-                  url: '/' + res.path
-                })
-              }
-            })
-          }
-
-        }
-      });
+      app.scanQrcode();
     } else {
       var openid = e.currentTarget.dataset.openid;
       var vediourl = e.currentTarget.dataset.vediourl;
@@ -656,40 +628,5 @@ Page({
       },
     });
   },
-  //互动游戏
-  hdgames(e) {
-    var openid = e.currentTarget.dataset.openid;
-    var box_mac = e.currentTarget.dataset.boxmac;
-    var linkcontent = e.currentTarget.dataset.linkcontent;
-
-    if (box_mac == '') {
-      wx.showModal({
-        title: '提示',
-        content: "您可扫码链接热点合作餐厅电视,使用此功能",
-        showCancel: true,
-        confirmText: '立即扫码',
-        success: function (res) {
-          if (res.confirm == true) {
-            wx.scanCode({
-              onlyFromCamera: true,
-              success: (res) => {
-                //console.log(res);
-                wx.navigateTo({
-                  url: '/' + res.path
-                })
-              }
-            })
-          }
-        }
-      });
-    } else {
-      var mobile_brand = app.globalData.mobile_brand;
-      var mobile_model = app.globalData.mobile_model;
-
-      wx.navigateTo({
-        url: linkcontent + '?box_mac=' + box_mac + '&openid=' + openid + '&game_id=2'
-      })
-    }
-
-  },
+  
 })

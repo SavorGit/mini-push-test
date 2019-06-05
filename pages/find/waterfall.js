@@ -3,7 +3,7 @@ const app = getApp();
 const util = require('../../utils/util.js')
 var openid;
 var box_mac;
-var page = 1; //当前节目单页数
+var page ; //当前节目单页数
 var discovery_list; //发现列表
 var pubdetail;
 var i;
@@ -31,7 +31,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    wx.hideShareMenu();
+    page = 1;
+    //wx.hideShareMenu();
     var that = this;
     wx.request({
       url: api_url+'/smallapp21/index/isFind',
@@ -198,7 +199,7 @@ Page({
     wx.request({
       url: api_url+'/smallapp/Discovery/index',
       data: {
-        page: page,
+        page: 1,
         openid: openid,
       },
       header: {
@@ -373,26 +374,7 @@ Page({
     var box_mac = e.target.dataset.boxmac;
     var find_id = e.target.dataset.forscreen_id
     if (box_mac == '') {
-      wx.showModal({
-        title: '提示',
-        content: "您可扫码链接热点合作餐厅电视,使用此功能",
-        showCancel: true,
-        confirmText: '立即扫码',
-        success: function(res) {
-          if (res.confirm == true) {
-            wx.scanCode({
-              onlyFromCamera: true,
-              success: (res) => {
-                //console.log(res);
-                wx.navigateTo({
-                  url: '/' + res.path
-                })
-              }
-            })
-          }
-
-        }
-      });
+      app.scanQrcode();
     } else {
       var user_info = wx.getStorageSync("savor_user_info");
       //console.log(user_info);

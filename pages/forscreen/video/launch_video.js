@@ -31,7 +31,7 @@ Page({
     openid = user_info.openid;
     var filename = options.filename;
     var video_img_url = options.video_img_url;
-    wx.hideShareMenu();
+    //wx.hideShareMenu();
 
     wx.request({
       url: api_url+'/Smallapp/index/isHaveCallBox?openid=' + openid,
@@ -207,26 +207,7 @@ Page({
     var box_mac = e.target.dataset.boxmac;
     
     if (box_mac == '') {
-      wx.showModal({
-        title: '提示',
-        content: "您可扫码链接热点合作餐厅电视,使用此功能",
-        showCancel: true,
-        confirmText: '立即扫码',
-        success: function (res) {
-          if (res.confirm == true) {
-            wx.scanCode({
-              onlyFromCamera: true,
-              success: (res) => {
-                //console.log(res);
-                wx.navigateTo({
-                  url: '/' + res.path
-                })
-              }
-            })
-          }
-
-        }
-      });
+      app.scanQrcode();
     } else {
       var openid = e.currentTarget.dataset.openid;
       var vediourl = e.currentTarget.dataset.vediourl;

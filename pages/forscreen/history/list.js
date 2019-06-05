@@ -1,7 +1,6 @@
 // pages/forscreen/history/list.js
 const util = require('../../../utils/util.js')
 const app = getApp();
-var tmp;
 var openid;
 var box_mac = '';
 var page = 1;
@@ -22,7 +21,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.hideShareMenu();
+    //wx.hideShareMenu();
     var that = this;
     openid = options.openid;
     box_mac= options.box_mac;

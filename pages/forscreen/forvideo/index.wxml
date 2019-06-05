@@ -20,7 +20,7 @@
         </view>
 
         <!-- 投视频 -->
-        <view class="grant_auth">
+        <view wx:if="{{is_open_control==false}}" class="grant_auth">
           <checkbox-group class="checkbox-group" bindchange="checkboxChange">
             <label class="items" wx:for="{{item}}" wx:key="key" wx:for-index="index">
               <view wx:if="{{index==0}}">
@@ -70,6 +70,56 @@
       </view>
     </bottomModal>
   </view>
+
+
+  <!-- ================================== 视频上传中 ================================== -->
+  <!-- <view class="full_width launch_video_page_b display_{{showVedio?'show':'hide'}}">
+    <view class='page_top theme2 flex_row_center font_666666_26'>
+      <label>视频加载完成后，电视开始加载并自动播放</label>
+      <label class='link_relief'>
+        <navigator url="/pages/forscreen/relief">免责声明</navigator>
+      </label>
+    </view>
+    <view class='page_main'>
+      <view class='cover full_width'>
+        <video src='{{upload_vedio_temp}}'></video>
+        <view>
+          <label class='font_1CBEB6_34'>{{vedio_percent}}%</label>
+          <progress percent='{{vedio_percent}}' activeColor='#1CBEB6' backgroundColor="#0e1c29" />
+        </view>
+      </view>
+    </view>
+    <view class='page_bottom'>
+      <button bindtap='forscreen_video' class="savor-btn savor-btn-size uploading" form-type="submit" hover-class="none" data-box_mac='{{box_mac}}' data-openid='{{openid}}' data-video="{{upload_vedio_temp}}" data-is_pub_hotelinfo='{{is_pub_hotelinfo}}' data-duration="{{duration}}"
+        data-is_share='{{is_share}}' data-avatarUrl='{{avatarUrl}}' data-nickName='{{nickName}}' disabled='{{is_btn_disabel}}'>正在上传...</button>
+    </view>
+  </view> -->
+
+
+  <!-- ================================== 视频上传失败 ================================== -->
+  <!-- <view class="full_width launch_video_page_b display_{{showVedio?'show':'hide'}}">
+    <view class='page_top theme2 flex_row_center font_666666_26'>
+      <label>视频加载完成后，电视开始加载并自动播放</label>
+      <label class='link_relief'>
+        <navigator url="/pages/forscreen/relief">免责声明</navigator>
+      </label>
+    </view>
+    <view class='page_main'>
+      <view class='cover full_width'>
+        <video src='{{upload_vedio_temp}}'></video>
+        <view>
+          <label class='font_666666_34'>{{vedio_percent}}%</label>
+          <progress percent='{{vedio_percent}}' activeColor='#666666' backgroundColor="#0e1c29" />
+        </view>
+      </view>
+    </view>
+    <view class='page_bottom'>
+      <button bindtap='forscreen_video' class="savor-btn savor-btn-size" form-type="submit" hover-class="none" data-box_mac='{{box_mac}}' data-openid='{{openid}}' data-video="{{upload_vedio_temp}}" data-is_pub_hotelinfo='{{is_pub_hotelinfo}}' data-duration="{{duration}}"
+        data-is_share='{{is_share}}' data-avatarUrl='{{avatarUrl}}' data-nickName='{{nickName}}' disabled='{{is_btn_disabel}}'>重试</button>
+    </view>
+  </view> -->
+
+
   <!-- ================================== 上传视频后 ================================== -->
   <view class="full_width full_height launch_video_page_a display_{{showVedio?'hide':'show'}}">
     <view class='page_top theme2 flex_row_center font_666666_26'>
@@ -79,7 +129,7 @@
       </label>
     </view>
     <view class='page_main'>
-      <view wx:if="{{is_open_control==false}}" class='cover'>
+       <view wx:if="{{is_open_control==false}}" class='cover'>
         <video src='{{oss_video_url}}'></video>
       </view>
 
@@ -117,11 +167,15 @@
             </view>
             <view wx:else class="video">
               <view class="cover" wx:for="{{bean.list}}" wx:key="pkey" wx:for-item="item" wx:for-index="indexs">
-                <navigator url="/pages/forscreen/video/launch_video?video_url={{item.res_url}}&video_name=">
+                <!-- <navigator url="/pages/forscreen/video/launch_video?video_url={{item.res_url}}&video_name=">
+                  <image mode='aspectFill' src="{{item.imgurl}}"></image>
+                </navigator> -->
+                <navigator url="/pages/forscreen/video/launch_video?video_url={{item.res_url}}&video_name=&box_mac={{box_mac}}&res_id={{item.resource_id}}&filename={{item.filename}}&video_img_url={{item.imgurl}}">
                   <image mode='aspectFill' src="{{item.imgurl}}"></image>
                 </navigator>
+                
                 <view>
-                  <navigator url="/pages/forscreen/video/launch_video?video_url={{item.res_url}}&video_name=">
+                  <navigator url="/pages/forscreen/video/launch_video?video_url={{item.res_url}}&video_name=&box_mac={{box_mac}}&res_id={{item.resource_id}}&filename={{item.filename}}&video_img_url={{item.imgurl}}">
                     <image src="/images/icon/white_play.png"></image>
                   </navigator>
                 </view>

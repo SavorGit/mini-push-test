@@ -44,7 +44,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
-    wx.hideShareMenu();
+    //wx.hideShareMenu();
     var that = this;
     var user_info = wx.getStorageSync("savor_user_info");
     var is_open_simple = e.is_open_simple;
@@ -61,6 +61,7 @@ Page({
       nickName: user_info.nickName,
       is_open_simple: is_open_simple,
       is_show_jump: false,
+      is_btn_disabel:true
 
     });
     wx.chooseImage({
@@ -74,6 +75,7 @@ Page({
           showTpBt: true,
           showThird: false,
           showSecond:true,
+          is_btn_disabel: false
         })
       },
       fail:function(res){
@@ -113,7 +115,7 @@ Page({
 
       ],
       is_share:0,
-      is_btn_disabel: false,
+      is_btn_disabel: true,
       is_show_jump: false,
     })
     openid = e.currentTarget.dataset.openid;
@@ -135,6 +137,7 @@ Page({
         that.setData({
           showTpBt: true,
           showThird: false,
+          is_btn_disabel:false,
         })
       }
     })
@@ -258,7 +261,6 @@ Page({
 
     
     function uploadOssNew(policy, signature, img_url, box_mac, openid, timestamp, flag, img_len, forscreen_char, forscreen_id, res_sup_time, avatarUrl, nickName, public_text, timer8_0, tmp_imgs) {
-
       var filename = img_url;
       var index1 = filename.lastIndexOf(".");
       var index2 = filename.length;
@@ -268,6 +270,7 @@ Page({
       var postf_t = filename.substring(index1, index2);//后缀名
       var postf_w = filename.substring(index1 + 1, index2);//后缀名
       //console.log(postf_w);
+
       var upload_task = wx.uploadFile({
         url: oss_upload_url,
         filePath: img_url,
@@ -288,8 +291,7 @@ Page({
 
         success: function (res) {
           if (order == img_len) {
-            
-            clearInterval(timer8_0);
+            clearTimeout(timer8_0);
           }
         },
         complete: function (es) {

@@ -12,7 +12,6 @@ var res_sup_time;
 var page = 1;
 var forscreen_history_list;
 var api_url = app.globalData.api_url;
-var oss_url = app.globalData.oss_url;
 var oss_upload_url = app.globalData.oss_upload_url;
 Page({
 
@@ -44,7 +43,8 @@ Page({
     forscreen_history_list:'',
     hiddens: true,   //上拉加载中,
     load_fresh_char:'',
-    is_view_control:true,
+    is_view_control:false,
+    is_view_control: true,
     is_open_control: false,
   },
 
@@ -52,7 +52,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
-    wx.hideShareMenu();
+    //wx.hideShareMenu();
     var that = this
     box_mac = e.box_mac;
     var openid = e.openid;
@@ -101,6 +101,7 @@ Page({
       load_fresh_char: '亲^_^投屏中,请稍后...',
       hiddens: false,
       is_btn_disabel:true,
+      is_open_control:true
     })
     var video = res.detail.value.video;
     var box_mac = res.detail.value.box_mac;
@@ -140,20 +141,6 @@ Page({
 
                     })
                   }, 10000);
-                }else{
-                  timer8_0 = setTimeout(function () {
-                    that.setData({
-                      hiddens: true,
-                      is_btn_disabel: false,
-                      hiddens: true,
-                      is_btn_disabel: false,
-                    })
-                    wx.showToast({
-                      title: '投屏超时，请重试',
-                      icon: 'none',
-                      duration: 2000
-                    })
-                  }, 60000);
                 }
                 uploadVedio(video, box_mac, openid, res_sup_time, is_pub_hotelinfo, is_share, duration, avatarUrl, nickName, public_text, timer8_0);
               }else {
@@ -166,23 +153,10 @@ Page({
             timer8_0 = setTimeout(function () {
               that.setData({
                 is_show_jump: true,
-                show: true,
-                hiddens: true,
-                is_btn_disabel: false,
+                show: true
+
               })
             }, 10000);
-          }else {
-            timer8_0 = setTimeout(function () {
-              that.setData({
-                hiddens: true,
-                is_btn_disabel: false,
-              })
-              wx.showToast({
-                title: '投屏超时，请重试',
-                icon: 'none',
-                duration: 2000
-              })
-            }, 60000);
           }
           uploadVedio(video, box_mac, openid, res_sup_time, is_pub_hotelinfo, is_share, duration, avatarUrl, nickName, public_text, timer8_0);
         }
@@ -250,10 +224,11 @@ Page({
           //console.log(res_eup_time);
           that.setData({
             showVedio:false,
-            oss_video_url: oss_url+"/forscreen/resource/" + timestamp + postf_t,
+            oss_video_url: "http://oss.littlehotspot.com/forscreen/resource/" + timestamp + postf_t,
             upload_vedio_temp:'',
             is_view_control: true,
             hiddens:true,
+            is_open_control: false
           })
           wx.request({
             url: api_url+'/Smallapp21/index/recordForScreenPics',
@@ -411,7 +386,23 @@ Page({
         },
         success: function (res) {
 
-          
+          /*wx.request({
+            url: "https://netty-push.littlehotspot.com/push/box",
+            header: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            method: "POST",
+            data: {
+              box_mac: box_mac,
+              cmd: 'call-mini-program',
+              msg: '{ "action":2, "url": "forscreen/resource/' + timestamp + postf_t + '", "filename":"' + timestamp + postf_t + '","openid":"' + openid + '","resource_type":2,"video_id":"' + timestamp+'"}',
+              req_id: timestamp
+            },
+            success: function (result) {
+             
+
+            },
+          });*/
         }
       });
       upload_task.onProgressUpdate((res) => {
@@ -1064,9 +1055,8 @@ Page({
   openControl: function (e) {
     var that = this;
     var qrcode_url = api_url+'/Smallapp/index/getBoxQr?box_mac=' + box_mac + '&type=3';
-    console.log(qrcode_url);
     that.setData({
-      is_open_control : true,
+      is_open_control: true,
       popRemoteControlWindow: true,
       qrcode_img: qrcode_url
     })
