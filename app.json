@@ -7,11 +7,6 @@
     "pages/forscreen/forimages/index",
     "pages/forscreen/forvideo/index",
     "pages/forscreen/history/list",
-    "pages/activity/turntable/index",
-    "pages/activity/turntable/game",
-    "pages/activity/turntable/joingame",
-    "pages/activity/turntable/join_success",
-    "pages/activity/turntable/scangame",
     "pages/find/selected_list",
     "pages/find/index",
     "pages/find/waterfall",
@@ -39,8 +34,7 @@
     "pages/thematic/money_blessing/grab_list",
     "pages/thematic/money_blessing/pay_result",
     "pages/thematic/money_blessing/receive_h5",
-    "pages/thematic/money_blessing/receive_result",
-    "pages/forscreen/history/video"
+    "pages/thematic/money_blessing/receive_result"
   ],
   "permission": {
     "scope.userLocation": {
@@ -67,7 +61,7 @@
         "selectedIconPath": "/images/icon2/1cbeb6_home.png"
       },
       {
-        "pagePath": "pages/find/waterfall",
+        "pagePath": "pages/find/selected_list",
         "text": "发现",
         "iconPath": "/images/icon2/666666_find.png",
         "selectedIconPath": "/images/icon2/1cbeb6_find.png"
@@ -94,8 +88,8 @@
   },
   "navigateToMiniProgramAppIdList": [
     "wx71cdc83866d4d28f",
-    "wx7883a4327329a67c",
-    "wx329d3de0b91b00a2",
-    "wx8ab347a4157b133f"
-  ]
+    "wxc395eb4b44563af1",
+    "wx7883a4327329a67c"
+  ],
+  "sitemapLocation": "sitemap.json"
 }

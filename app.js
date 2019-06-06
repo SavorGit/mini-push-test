@@ -168,7 +168,40 @@ App({
       },
     })
   },
-  onLaunch: function() {
+  //扫码
+  scanQrcode: function () {
+    wx.showModal({
+      title: '提示',
+      content: "您可扫码链接热点合作餐厅电视,使用此功能",
+      showCancel: true,
+      confirmText: '立即扫码',
+      success: function (res) {
+        if (res.confirm == true) {
+          wx.scanCode({
+            onlyFromCamera: true,
+            success: (res) => {
+              if (res.scanType == 'QR_CODE') {
+                var selemite = res.result.indexOf("?");
+                var params = res.result.substring(selemite, res.result.length);
+
+                params = '/pages/forscreen/forscreen' + params;
+                wx.navigateTo({
+                  url: params
+                })
+              } else if (res.scanType == 'WX_CODE') {
+                wx.navigateTo({
+                  url: '/' + res.path
+                })
+              }
+            }
+          })
+        }
+      }
+    });
+
+
+  },
+  onLaunch: function () {
     // 获取小程序更新机制兼容
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager()
@@ -211,16 +244,18 @@ App({
       success: res => {
         var code = res.code; //返回code
         wx.request({
-          url: that.globalData.api_url +'/smallapp/index/getOpenid',
+          url: that.globalData.api_url + '/smallapp/index/getOpenid',
           data: {
             "code": code
           },
           header: {
             'content-type': 'application/json'
           },
-          success: function(res) {
+          success: function (res) {
             that.globalData.openid = res.data.result.openid;
+            that.globalData.session_key = res.data.result.session_key;
             if (that.openidCallback) {
+
               that.openidCallback(res.data.result.openid);
             }
           }
@@ -228,16 +263,16 @@ App({
       }
     })
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         that.globalData.mobile_brand = res.brand;
         that.globalData.mobile_model = res.model;
       }
     })
   },
-  onShow: function(options) {
+  onShow: function (options) {
     var app = this;
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         app.globalData.statusBarHeight = res.statusBarHeight;
       }
     })
