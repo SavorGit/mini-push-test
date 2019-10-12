@@ -155,6 +155,7 @@ App({
   },
   //遥控控制节目
   controlChangeProgram:function(box_mac,change_type){
+    var that = this;
     var timestamp = (new Date()).valueOf();
     wx.request({
       url: that.globalData.api_url +'/Netty/Index/index',
