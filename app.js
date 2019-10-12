@@ -290,5 +290,6 @@ App({
     oss_url: 'https://dev-oss.littlehotspot.com',
     rest_appid:'wx329d3de0b91b00a2',
     jijian_appid:'wx8ab347a4157b133f',
+    oss_access_key_id:'LTAITjXOpRHKflOX'
   }
 })
